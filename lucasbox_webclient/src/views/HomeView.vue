@@ -3,7 +3,5 @@ import HomeLayout from '@/components/PageLayout.vue';
 </script>
 
 <template>
-  <main>
-    <HomeLayout />
-  </main>
+  <HomeLayout />
 </template>

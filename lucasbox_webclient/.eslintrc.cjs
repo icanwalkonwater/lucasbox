@@ -12,6 +12,8 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
+    "indent": ["error", 2],
+    "vue/html-indent": ["error", 2],
     "semi": ["error", "always"],
     "comma-dangle": ["error", "always-multiline"],
   },
