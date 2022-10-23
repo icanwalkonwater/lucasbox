@@ -3,7 +3,7 @@ import { HomeIcon, MovieIcon, UploadIcon, SettingsIcon } from "vue-tabler-icons"
 </script>
 
 <template>
-  <div class="h-screen border-r">
+  <div class="sticky top-0 h-screen border-r">
     <div class="flex flex-col">
       <!-- Sidebar top icon -->
       <button class="btn btn-ghost rounded-none">
