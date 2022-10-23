@@ -38,7 +38,7 @@ const statData = [
 const movie = {
   title: "Star Wars",
   description: "In a galaxy far far away, there was a tall black masked man. uwu",
-  cover: "https://placeimg.com/640/300/nature",
+  cover: "https://placeimg.com/640/640/nature",
   badges: [
     "Movie",
     "9 episodes",
@@ -62,7 +62,7 @@ const movie = {
     <div class="divider"></div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 md:gap-4">
-      <FeaturedMovieItem v-bind="movie">
+      <FeaturedMovieItem v-for="i in 10" :key="i" v-bind="movie">
         <template v-slot:featured>
           <span class="badge badge-info"><DownloadIcon size="16" />&nbsp;Most downloaded</span>
         </template>
