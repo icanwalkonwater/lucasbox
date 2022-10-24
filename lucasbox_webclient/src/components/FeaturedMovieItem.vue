@@ -1,23 +1,21 @@
 <script setup lang="ts">
 import { DownloadIcon, InfoCircleIcon } from "vue-tabler-icons";
 
-const DEFAULT_COVER = "https://placeimg.com/640/640/nature";
-
-defineProps<{
+withDefaults(
+  defineProps<{
   title: string,
   description: string,
   cover?: string,
   badges: string[],
-}>();
+}>(),
+  { cover: import.meta.env.VITE_DEFAULT_COVER },
+);
 
 </script>
 
 <template>
   <a class="movie card border image-full cursor-pointer">
-    <figure>
-      <img v-if="cover !== undefined" class="!h-60 !object-cover" :src="cover" />
-      <img v-else class="!h-60" :src="DEFAULT_COVER" />
-    </figure>
+    <figure><img class="!h-60 w-full object-cover" :src="cover" /></figure>
     <div class="card-body">
       <div class="card-title">{{ title }}</div>
       <div class="flex flex-wrap gap-1">

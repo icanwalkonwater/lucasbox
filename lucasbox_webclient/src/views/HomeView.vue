@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import HomeLayout from '../components/layout/PageLayout.vue';
-import StatItem from '../components/StatItem.vue';
+import PageLayout from "../components/layout/PageLayout.vue";
+import StatItem from "../components/StatItem.vue";
 import FeaturedMovieItem from "../components/FeaturedMovieItem.vue";
-import { DownloadIcon } from 'vue-tabler-icons';
+import { DownloadIcon } from "vue-tabler-icons";
 
-const statData = [
+const indicatorData = [
   {
     name: "Uptime",
     value: "35 days",
@@ -47,10 +47,10 @@ const movie = {
 </script>
 
 <template>
-  <HomeLayout>
+  <PageLayout>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4">
       <StatItem
-        v-for="(stat, index) in statData"
+        v-for="(stat, index) in indicatorData"
         :key="index"
         :title="stat.name"
         :value="stat.value"
@@ -68,5 +68,5 @@ const movie = {
         </template>
       </FeaturedMovieItem>
     </div>
-  </HomeLayout>
+  </PageLayout>
 </template>

@@ -12,24 +12,24 @@ import { HomeIcon, MovieIcon, UploadIcon, SettingsIcon } from "vue-tabler-icons"
       <div class="h-10"></div>
       <ul class="menu">
         <li>
-          <a class="active place-content-center">
+          <RouterLink to="/" active-class="active" class="place-content-center">
             <HomeIcon />
-          </a>
+          </RouterLink>
         </li>
         <li>
-          <a class="place-content-center">
+          <RouterLink to="/list" active-class="active" class="place-content-center">
             <MovieIcon />
-          </a>
+          </RouterLink>
         </li>
         <li>
-          <a class="place-content-center">
+          <RouterLink to="/upload" active-class="active" class="place-content-center">
             <UploadIcon />
-          </a>
+          </RouterLink>
         </li>
         <li>
-          <a class="place-content-center">
+          <RouterLink to="/settings" active-class="active" class="place-content-center">
             <SettingsIcon />
-          </a>
+          </RouterLink>
         </li>
       </ul>
     </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MainSidebar from './MainSidebar.vue';
-import MainNavbar from './MainNavbar.vue';
+import MainSidebar from "./MainSidebar.vue";
+import MainNavbar from "./MainNavbar.vue";
 
 const appName = import.meta.env.VITE_APP_NAME;
 </script>
