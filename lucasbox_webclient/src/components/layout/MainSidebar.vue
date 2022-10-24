@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { routeUpload, routeHome, routeListing, routeSettings } from "@/router";
-import { HomeIcon, MovieIcon, UploadIcon, SettingsIcon } from "vue-tabler-icons";
+import { HomeIcon, UploadIcon, SettingsIcon, SearchIcon } from "vue-tabler-icons";
 </script>
 
 <template>
   <div class="sticky top-0 h-screen border-r">
     <div class="flex flex-col">
       <!-- Sidebar top icon -->
-      <button class="btn btn-ghost rounded-none">
-        <img class="h-7 w-7" src="/favicon.ico">
-      </button>
+      <RouterLink :to="{ name: routeHome }" custom v-slot="{ navigate }">
+        <button class="btn btn-ghost rounded-none" @click="navigate">
+          <img class="h-7 w-7" src="/favicon.ico">
+        </button>
+      </RouterLink>
       <div class="h-10"></div>
       <ul class="menu">
         <li>
@@ -19,7 +21,7 @@ import { HomeIcon, MovieIcon, UploadIcon, SettingsIcon } from "vue-tabler-icons"
         </li>
         <li>
           <RouterLink :to="{ name: routeListing }" active-class="active" class="place-content-center">
-            <MovieIcon />
+            <SearchIcon />
           </RouterLink>
         </li>
         <li>

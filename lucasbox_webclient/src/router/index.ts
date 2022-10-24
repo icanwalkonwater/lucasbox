@@ -1,7 +1,11 @@
-import FranchiseViewVue from "@/views/FranchiseView.vue";
+import FranchiseTabMovies from "@/components/franchise/FranchiseTabMovies.vue";
+import FranchiseRoot from "@/components/franchise/FranchiseRoot.vue";
+import FranchiseTabSeries from "@/components/franchise/FranchiseTabSeries.vue";
+import FranchiseView from "@/views/FranchiseView.vue";
 import HomeView from "@/views/HomeView.vue";
 import ListingView from "@/views/ListingView.vue";
 import { createRouter, createWebHistory } from "vue-router";
+import FranchiseMovie from "@/components/franchise/FranchiseMovie.vue";
 
 const NotFoundView = () => import("@/views/NotFoundView.vue");
 const WipView = () => import("@/views/WipView.vue");
@@ -9,9 +13,10 @@ const WipView = () => import("@/views/WipView.vue");
 export const routeHome = Symbol();
 export const routeListing = Symbol();
 export const routeDetailFranchise = Symbol();
-export const routeDetailFranchiseSerie = Symbol();
-export const routeDetailFranchiseSerieEpisode = Symbol();
 export const routeDetailFranchiseMovie = Symbol();
+export const routeDetailFranchiseSerie = Symbol();
+export const routeDetailMovie = Symbol();
+export const routeDetailSerie = Symbol();
 export const routeUpload = Symbol();
 export const routeSettings = Symbol();
 export const route404 = Symbol();
@@ -25,31 +30,35 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: "/list",
+      path: "/listing",
       name: routeListing,
       component: ListingView,
     },
     {
-      path: "/f/:fid",
-      name: routeDetailFranchise,
-      component: FranchiseViewVue,
+      path: "/franchise/:fid",
+      component: FranchiseView,
       children: [
         {
-          path: "m/:mid",
-          name: routeDetailFranchiseMovie,
-          component: WipView,
-        },
-        {
-          path: "s/:sid",
-          name: routeDetailFranchiseSerie,
-          component: WipView,
+          path: "",
+          name: routeDetailFranchise,
+          component: FranchiseRoot,
           children: [
             {
-              path: ":seid",
-              name: routeDetailFranchiseSerieEpisode,
-              component: WipView,
+              path: "movies",
+              name: routeDetailFranchiseMovie,
+              component: FranchiseTabMovies,
+            },
+            {
+              path: "series",
+              name: routeDetailFranchiseSerie,
+              component: FranchiseTabSeries,
             },
           ],
+        },
+        {
+          path: "movies/:mid",
+          name: routeDetailMovie,
+          component: FranchiseMovie,
         },
       ],
     },
