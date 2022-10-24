@@ -66,11 +66,11 @@ const router = createRouter({
         },
         {
           path: "series/:serieId",
-          name: routeDetailSerie,
           component: FranchiseSerie,
           children: [
             {
               path: "",
+              name: routeDetailSerie,
               component: Empty,
             },
             {

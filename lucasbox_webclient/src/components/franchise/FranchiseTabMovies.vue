@@ -5,12 +5,12 @@ import { routeDetailMovie } from "@/router";
 <template>
   <ul class="menu">
     <li>
-      <RouterLink :to="{ name: routeDetailMovie, params: { mid: 1 } }">
+      <RouterLink :to="{ name: routeDetailMovie, params: { movieId: 1 } }">
         Episode I: Phantom Menace
       </RouterLink>
     </li>
     <li>
-      <RouterLink :to="{ name: routeDetailMovie, params: { mid: 2 } }">
+      <RouterLink :to="{ name: routeDetailMovie, params: { movieId: 2 } }">
         Episode II: Clone wars
       </RouterLink>
     </li>
