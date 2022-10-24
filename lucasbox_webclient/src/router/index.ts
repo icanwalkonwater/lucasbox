@@ -1,3 +1,4 @@
+import FranchiseViewVue from "@/views/FranchiseView.vue";
 import HomeView from "@/views/HomeView.vue";
 import ListingView from "@/views/ListingView.vue";
 import { createRouter, createWebHistory } from "vue-router";
@@ -31,7 +32,7 @@ const router = createRouter({
     {
       path: "/f/:fid",
       name: routeDetailFranchise,
-      component: WipView,
+      component: FranchiseViewVue,
       children: [
         {
           path: "m/:mid",
