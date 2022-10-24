@@ -17,8 +17,8 @@ withDefaults(
     <div class="card-body">
       <div class="card-title">{{ name }}</div>
       <div class="flex flex-wrap gap-2">
-        <div class="badge badge-secondary">{{ movies }}&nbsp;movies</div>
-        <div class="badge badge-secondary">{{ series }}&nbsp;serie</div>
+        <div v-if="movies > 0" class="badge badge-secondary">{{ movies }}&nbsp;movies</div>
+        <div v-if="series > 0" class="badge badge-secondary">{{ series }}&nbsp;serie</div>
       </div>
       <p>{{ description }}</p>
     </div>

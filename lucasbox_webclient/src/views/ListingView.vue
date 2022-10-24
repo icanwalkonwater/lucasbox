@@ -2,13 +2,9 @@
 import PageLayout from "@/components/layout/PageLayout.vue";
 import ListingMovieItem from "@/components/ListingMovieItem.vue";
 import { routeDetailFranchise } from "@/router";
+import { useTestDataStore } from "@/stores/testData";
 
-const movieData = {
-  name: "Le seigneur de l'anal",
-  description: "uwu legolas-chan",
-  movies: 6,
-  series: 1,
-};
+const testData = useTestDataStore();
 </script>
 
 <template>
@@ -16,14 +12,23 @@ const movieData = {
     <input type="text" placeholder="Search" class="input input-bordered input-md w-full" />
     
     <div class="grid grid-cols-3 gap-4 mt-5">
-      <div v-for="i in 10" :key="i">
-        <RouterLink :to="{ name: routeDetailFranchise, params: { fid: 1 } }" custom v-slot="{ navigate }">
+
+      <div v-for="(franchise, i) in testData.franchises" :key="i">
+        <RouterLink
+          :to="{ name: routeDetailFranchise, params: { franchiseId: franchise.id } }" 
+          custom
+          v-slot="{ navigate }"
+        >
           <ListingMovieItem
-            v-bind="movieData"
+            :name="franchise.title"
+            :description="franchise.description"
+            :movies="franchise.movies?.length ?? 0"
+            :series="franchise.series?.length ?? 0"
             @click="navigate"
           />
         </RouterLink>
       </div>
+      
     </div>
   </PageLayout>
 </template>

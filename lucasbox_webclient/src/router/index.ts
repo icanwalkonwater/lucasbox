@@ -39,7 +39,7 @@ const router = createRouter({
       component: ListingView,
     },
     {
-      path: "/franchise/:fid",
+      path: "/franchise/:franchiseId",
       component: FranchiseView,
       children: [
         {
@@ -60,12 +60,12 @@ const router = createRouter({
           ],
         },
         {
-          path: "movies/:mid",
+          path: "movies/:movieId",
           name: routeDetailMovie,
           component: FranchiseMovie,
         },
         {
-          path: "series/:sid",
+          path: "series/:serieId",
           name: routeDetailSerie,
           component: FranchiseSerie,
           children: [
@@ -74,7 +74,7 @@ const router = createRouter({
               component: Empty,
             },
             {
-              path: "s/:ssid?/e/:eid?",
+              path: "s/:seasonId/e/:episodeId",
               name: routeDetailSerieEpisode,
               component: FranchiseSerieEpisode,
             },
