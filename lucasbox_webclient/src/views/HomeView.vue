@@ -3,37 +3,9 @@ import PageLayout from "../components/layout/PageLayout.vue";
 import StatItem from "../components/StatItem.vue";
 import FeaturedMovieItem from "../components/FeaturedMovieItem.vue";
 import { DownloadIcon } from "vue-tabler-icons";
+import { useTestDataStore } from "@/stores/testData";
 
-const indicatorData = [
-  {
-    name: "Uptime",
-    value: "35 days",
-  },
-  {
-    name: "CPU",
-    value: "i9-9999Z",
-    percent: 12,
-  },
-  {
-    name: "RAM",
-    value: "3.4/4 Go",
-    percent: 85,
-  },
-  {
-    name: "Used disk space",
-    value: "3.9/4 To",
-    percent: 97,
-    critical: true,
-  },
-  {
-    name: "Active downloads",
-    value: "5",
-  },
-  {
-    name: "Network usage down",
-    value: "1000 Mbps",
-  },
-];
+const testData = useTestDataStore();
 
 const movie = {
   title: "Star Wars",
@@ -49,7 +21,7 @@ const movie = {
   <PageLayout>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4">
       <StatItem
-        v-for="(stat, index) in indicatorData"
+        v-for="(stat, index) in testData.indicators"
         :key="index"
         :title="stat.name"
         :value="stat.value"
@@ -61,7 +33,7 @@ const movie = {
     <div class="divider"></div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 md:gap-4">
-      <FeaturedMovieItem v-for="i in 10" :key="i" v-bind="movie">
+      <FeaturedMovieItem v-bind="movie">
         <template v-slot:featured>
           <span class="badge badge-info"><DownloadIcon size="16" />&nbsp;Most downloaded</span>
         </template>

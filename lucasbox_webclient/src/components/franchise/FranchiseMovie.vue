@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { routeDetailMovie } from "@/router";
-import { ChevronLeftIcon, ChevronRightIcon, FileDownloadIcon, TrafficConeIcon } from "vue-tabler-icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "vue-tabler-icons";
 import DownloadTable from "../DownloadTable.vue";
 </script>
 

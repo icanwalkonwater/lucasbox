@@ -1,7 +1,23 @@
+<script setup lang="ts">
+import { routeDetailSerie } from "@/router";
+</script>
+
 <template>
   <ul class="menu">
-    <li><a>Clone Wars</a></li>
-    <li><a>Rebels</a></li>
-    <li><a>The Mandalorian</a></li>
+    <li>
+      <RouterLink :to="{ name: routeDetailSerie, params: { sid: 1 } }">
+        Clone Wars
+      </RouterLink>
+    </li>
+    <li>
+      <RouterLink :to="{ name: routeDetailSerie, params: { sid: 2 } }">
+        Rebels
+      </RouterLink>
+    </li>
+    <li>
+      <RouterLink :to="{ name: routeDetailSerie, params: { sid: 3 } }">
+        The Mandalorian
+      </RouterLink>
+    </li>
   </ul>
 </template>
