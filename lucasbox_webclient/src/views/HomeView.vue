@@ -38,7 +38,6 @@ const indicatorData = [
 const movie = {
   title: "Star Wars",
   description: "In a galaxy far far away, there was a tall black masked man. uwu",
-  cover: "https://placeimg.com/640/640/nature",
   badges: [
     "Movie",
     "9 episodes",

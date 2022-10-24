@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { routeUpload, routeHome, routeListing, routeSettings } from "@/router";
 import { HomeIcon, MovieIcon, UploadIcon, SettingsIcon } from "vue-tabler-icons";
 </script>
 
@@ -12,22 +13,22 @@ import { HomeIcon, MovieIcon, UploadIcon, SettingsIcon } from "vue-tabler-icons"
       <div class="h-10"></div>
       <ul class="menu">
         <li>
-          <RouterLink to="/" active-class="active" class="place-content-center">
+          <RouterLink :to="{ name: routeHome }" exact-active-class="active" class="place-content-center">
             <HomeIcon />
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/list" active-class="active" class="place-content-center">
+          <RouterLink :to="{ name: routeListing }" active-class="active" class="place-content-center">
             <MovieIcon />
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/upload" active-class="active" class="place-content-center">
+          <RouterLink :to="{ name: routeUpload }" active-class="active" class="place-content-center">
             <UploadIcon />
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/settings" active-class="active" class="place-content-center">
+          <RouterLink :to="{ name: routeSettings }" active-class="active" class="place-content-center">
             <SettingsIcon />
           </RouterLink>
         </li>

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { DownloadIcon, InfoCircleIcon } from "vue-tabler-icons";
-
 withDefaults(
   defineProps<{
   title: string,
@@ -23,10 +21,6 @@ withDefaults(
         <span v-for="(content, index) in badges" :key="index" class="movie-details badge opacity-0 transition-opacity">{{ content }}</span>
       </div>
       <p class="movie-details text-ellipsis opacity-0 transition-opacity">{{ description }}</p>
-      <div class="movie-details card-actions justify-end opacity-0 transition-opacity">
-        <button class="btn btn-info"><InfoCircleIcon size="20"/>&nbsp;Details</button>
-        <button class="btn btn-accent"><DownloadIcon size="20" />&nbsp;Download</button>
-      </div>
     </div>
   </a>
 </template>
