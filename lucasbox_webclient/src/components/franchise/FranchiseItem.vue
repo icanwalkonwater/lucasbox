@@ -14,13 +14,13 @@ const isExtraEmpty = computed(() => (props.franchise.extra?.length ?? 0) === 0);
 
 const isSingleMovie = computed(() => props.franchise.movies?.length === 1 && isSeriesEmpty && isExtraEmpty);
 const isSingleSerie = computed(() => props.franchise.series?.length === 1 && isMovieEmpty && isExtraEmpty);
-const isOnlyMovies = computed(() => (props))
 
+/*
 watchEffect(() => {
-  if (isSingleMovie) {
+  if (isSingleMovie.value) {
     router.replace({ name: routeDetailMovie, params: { movieId: props.franchise.movies![0].id } });
   }
-});
+});*/
 </script>
 
 <template>
