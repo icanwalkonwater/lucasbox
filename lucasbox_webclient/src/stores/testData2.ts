@@ -32,16 +32,18 @@ export interface Indicator {
 
 export const useTestDataStore2 = defineStore("testData2", () => {
   let collId = 0;
+  let itemId = 0;
+  let fileId = 0;
 
   const swMovies: Collection = {
     id: collId++,
     name: "Movies",
     description: "oui",
     items: [{
-      id: 0,
+      id: itemId++,
       title: "Episode I",
       files: [{
-        id: 0,
+        id: fileId++,
         name: "sw1.mkv",
       }],
     }],
@@ -53,10 +55,10 @@ export const useTestDataStore2 = defineStore("testData2", () => {
     description: "oui",
     items: [
       {
-        id: 0,
+        id: itemId++,
         title: "E01",
         files: [{
-          id: 0,
+          id: fileId++,
           name: "cwS01E01.mkv",
         }],
       },
@@ -86,7 +88,8 @@ export const useTestDataStore2 = defineStore("testData2", () => {
     children: [swMovies.id,swSeries.id],
   };
 
-  const collections = reactive([sw]);
+  const collections = reactive([sw, swSeries, swCloneWars, swCloneWarsS01, swMovies]);
+  const rootCollections = reactive([sw]);
 
   const indicators: Indicator[] = [
     {
@@ -119,5 +122,5 @@ export const useTestDataStore2 = defineStore("testData2", () => {
     },
   ];
 
-  return { indicators, collections };
+  return { indicators, rootCollections, collections };
 });
