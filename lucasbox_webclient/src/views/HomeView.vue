@@ -3,17 +3,14 @@ import PageLayout from "../components/layout/PageLayout.vue";
 import StatItem from "../components/StatItem.vue";
 import FeaturedMovieItem from "../components/FeaturedMovieItem.vue";
 import { DownloadIcon } from "vue-tabler-icons";
-import { useTestDataStore } from "@/stores/testData";
+import { useTestDataStore2 } from "@/stores/testData2";
 
-const testData = useTestDataStore();
+const testData2 = useTestDataStore2();
 
 const movie = {
-  title: "Star Wars",
-  description: "In a galaxy far far away, there was a tall black masked man. uwu",
-  badges: [
-    "Movie",
-    "9 episodes",
-  ],
+  title: "TODO",
+  description: "TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
+  badges: ["TODO"],
 };
 </script>
 
@@ -21,7 +18,7 @@ const movie = {
   <PageLayout>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4">
       <StatItem
-        v-for="(stat, index) in testData.indicators"
+        v-for="(stat, index) in testData2.indicators"
         :key="index"
         :title="stat.name"
         :value="stat.value"

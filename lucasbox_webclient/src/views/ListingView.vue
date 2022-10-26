@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import PageLayout from "@/components/layout/PageLayout.vue";
 import ListingMovieItem from "@/components/ListingMovieItem.vue";
-import { routeDetailFranchise } from "@/router";
-import { useTestDataStore } from "@/stores/testData";
+import { routeDetailCollection } from "@/router";
+import { useTestDataStore2 } from "@/stores/testData2";
 
-const testData = useTestDataStore();
+const testData2 = useTestDataStore2();
 </script>
 
 <template>
@@ -13,9 +13,9 @@ const testData = useTestDataStore();
     
     <div class="grid grid-cols-3 gap-4 mt-5">
 
-      <div v-for="(franchise, i) in testData.franchises" :key="i">
+      <div v-for="(collection, i) in testData2.collections" :key="i">
         <RouterLink
-          :to="{ name: routeDetailFranchise, params: { franchiseId: franchise.id } }" 
+          :to="{ name: routeDetailCollection, params: { franchiseId: collection.id } }" 
           custom
           v-slot="{ navigate }"
         >

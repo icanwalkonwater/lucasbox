@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routeDetailMovie } from "@/router";
+import { route404 } from "@/router";
 import { ChevronLeftIcon, ChevronRightIcon } from "vue-tabler-icons";
 import DownloadTable from "../DownloadTable.vue";
 </script>
@@ -16,10 +16,10 @@ import DownloadTable from "../DownloadTable.vue";
         <DownloadTable />
 
         <div class="flex justify-between w-full mt-10">
-          <RouterLink :to="{ name: routeDetailMovie }" class="btn btn-primary btn-disabled">
+          <RouterLink :to="{ name: route404 }" class="btn btn-primary btn-disabled">
             <ChevronLeftIcon />&nbsp;None
           </RouterLink>
-          <RouterLink :to="{ name: routeDetailMovie }" class="btn btn-primary">
+          <RouterLink :to="{ name: route404 }" class="btn btn-primary">
             Episode II: The Clone Wars&nbsp;<ChevronRightIcon />
           </RouterLink>
         </div>

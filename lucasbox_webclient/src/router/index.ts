@@ -15,12 +15,7 @@ const WipView = () => import("@/views/WipView.vue");
 
 export const routeHome = Symbol();
 export const routeListing = Symbol();
-export const routeDetailFranchise = Symbol();
-export const routeDetailFranchiseMovie = Symbol();
-export const routeDetailFranchiseSerie = Symbol();
-export const routeDetailMovie = Symbol();
-export const routeDetailSerie = Symbol();
-export const routeDetailSerieEpisode = Symbol();
+export const routeDetailCollection = Symbol();
 export const routeUpload = Symbol();
 export const routeSettings = Symbol();
 export const route404 = Symbol();
@@ -39,48 +34,9 @@ const router = createRouter({
       component: ListingView,
     },
     {
-      path: "/franchise/:franchiseId",
+      path: "/collection/:collectionId*",
+      name: routeDetailCollection,
       component: FranchiseView,
-      children: [
-        {
-          path: "",
-          name: routeDetailFranchise,
-          component: FranchiseRoot,
-          children: [
-            {
-              path: "movies",
-              name: routeDetailFranchiseMovie,
-              component: FranchiseTabMovies,
-            },
-            {
-              path: "series",
-              name: routeDetailFranchiseSerie,
-              component: FranchiseTabSeries,
-            },
-          ],
-        },
-        {
-          path: "movies/:movieId",
-          name: routeDetailMovie,
-          component: FranchiseMovie,
-        },
-        {
-          path: "series/:serieId",
-          component: FranchiseSerie,
-          children: [
-            {
-              path: "",
-              name: routeDetailSerie,
-              component: Empty,
-            },
-            {
-              path: "s/:seasonId/e/:episodeId",
-              name: routeDetailSerieEpisode,
-              component: FranchiseSerieEpisode,
-            },
-          ],
-        },
-      ],
     },
     {
       path: "/upload",

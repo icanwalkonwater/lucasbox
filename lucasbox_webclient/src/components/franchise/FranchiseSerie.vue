@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routeDetailSerieEpisode } from "@/router";
+import { route404 } from "@/router";
 </script>
 
 <template>
@@ -18,7 +18,7 @@ import { routeDetailSerieEpisode } from "@/router";
 
         <ul class="menu">
           <li v-for="i in 10" :key="i">
-            <RouterLink :to="{ name: routeDetailSerieEpisode, params: { ssid: 1, eid: i } }" active-class="active">Episode {{ i }}</RouterLink>
+            <RouterLink :to="{ name: route404, params: { ssid: 1, eid: i } }" active-class="active">Episode {{ i }}</RouterLink>
           </li>
         </ul>
       </div>

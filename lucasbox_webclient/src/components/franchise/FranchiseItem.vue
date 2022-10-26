@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routeDetailFranchiseMovie, routeDetailFranchiseSerie, routeDetailMovie } from "@/router";
+import { route404 } from "@/router";
 import { ChevronRightIcon } from "vue-tabler-icons";
 import type { Franchise } from "@/stores/testData";
 import { useRouter } from "vue-router";
@@ -30,13 +30,13 @@ watchEffect(() => {
   </div>
   <ul class="menu">
     <li>
-      <RouterLink :to="{ name: routeDetailFranchiseMovie }" exact-active-class="active" class="flex justify-between">
+      <RouterLink :to="{ name: route404 }" exact-active-class="active" class="flex justify-between">
         <span>Movies</span>
         <ChevronRightIcon />
       </RouterLink>
     </li>
     <li>
-      <RouterLink :to="{ name: routeDetailFranchiseSerie }" exact-active-class="active" class="flex justify-between">
+      <RouterLink :to="{ name: route404 }" exact-active-class="active" class="flex justify-between">
         <span>Serie</span>
         <ChevronRightIcon />
       </RouterLink>
