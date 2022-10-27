@@ -1,27 +1,37 @@
 <script setup lang="ts">
+import CollectionBody from "@/components/collection/CollectionBody.vue";
 import PageLayout from "@/components/layout/PageLayout.vue";
+import { route404 } from "@/router";
 import { useTestDataStore2 } from "@/stores/testData2";
 import { useRouteParams } from "@vueuse/router";
-import { computed } from "vue";
+import { computed, watchEffect } from "vue";
+import { useRouter } from "vue-router";
 
 const testData = useTestDataStore2();
 
 const collectionIdRaw = useRouteParams<string>("collectionId");
 const collectionId = computed(() => parseInt(collectionIdRaw.value));
 
-const collection = computed(() => testData.collections.find(({ id }) => id === collectionId.value)!);
+const collection = computed(() => testData.collections.find(({ id }) => id === collectionId.value));
+
+console.log(collectionId, collection);
+
+watchEffect(() => {
+  if (collection.value === undefined) {
+    useRouter().replace({ name: route404 });
+  }
+});
 </script>
 
 <template>
   <PageLayout class="!m-0 flex">
     <div class="grid grid-cols-2 flex-grow">
       <div class="border-r">
-        {{ collection }}
+        <CollectionBody v-if="collection !== undefined" :collection="collection!" />
       </div>
       <div>
         <RouterView>
-          Select something
-          </RouterView>
+        </RouterView>
       </div>
     </div>
   </PageLayout>

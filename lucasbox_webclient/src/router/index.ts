@@ -1,4 +1,5 @@
-import ToDoVue from "@/components/ToDo.vue";
+import CollectionChildrenList from "@/components/collection/CollectionChildrenList.vue";
+import ToDo from "@/components/ToDo.vue";
 import CollectionView from "@/views/CollectionView.vue";
 import HomeView from "@/views/HomeView.vue";
 import ListingView from "@/views/ListingView.vue";
@@ -31,20 +32,24 @@ const router = createRouter({
     },
     {
       path: "/collection/:collectionId(\\d+)",
-      name: routeDetailCollection,
       component: CollectionView,
       children: [
         {
+          path: "",
+          name: routeDetailCollection,
+          component: ToDo,
+        },
+        {
           path: "c/:childId(\\d+)",
           name: routeDetailCollectionChild,
-          component: ToDoVue,
+          component: CollectionChildrenList,
         },
         {
           path: "i/:itemId(\\d+)",
           name: routeDetailCollectionItem,
-          component: ToDoVue,
-        }
-      ]
+          component: ToDo,
+        },
+      ],
     },
     {
       path: "/upload",
@@ -57,8 +62,12 @@ const router = createRouter({
       component: WipView,
     },
     {
-      path: "/:pathMatch(.*)*",
+      path: "/404",
       name: route404,
+      component: NotFoundView,
+    },
+    {
+      path: "/:p(.*)*",
       component: NotFoundView,
     },
   ],

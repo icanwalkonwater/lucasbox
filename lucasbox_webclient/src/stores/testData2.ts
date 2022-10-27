@@ -11,6 +11,7 @@ export type Collection = {
   name: string,
   description: string,
   children?: CollectionRef[],
+  inlineChildren?: CollectionRef[],
   items?: CollectionItem[],
 } & WithId;
 
@@ -56,10 +57,34 @@ export const useTestDataStore2 = defineStore("testData2", () => {
     items: [
       {
         id: itemId++,
-        title: "E01",
+        title: "Episode 01",
         files: [{
           id: fileId++,
           name: "cwS01E01.mkv",
+        }],
+      },
+      {
+        id: itemId++,
+        title: "Episode 02",
+        files: [{
+          id: fileId++,
+          name: "cwS01E02.mkv",
+        }],
+      },
+    ],
+  };
+
+  const swCloneWarsS02: Collection = {
+    id: collId++,
+    name: "S02",
+    description: "oui",
+    items: [
+      {
+        id: itemId++,
+        title: "Episode 01",
+        files: [{
+          id: fileId++,
+          name: "cwS02E01.mkv",
         }],
       },
     ],
@@ -69,7 +94,7 @@ export const useTestDataStore2 = defineStore("testData2", () => {
     id: collId++,
     name: "Clone wars",
     description: "oui",
-    children: [swCloneWarsS01.id],
+    inlineChildren: [swCloneWarsS01.id, swCloneWarsS02.id],
   };
 
   const swSeries: Collection = {
@@ -88,7 +113,7 @@ export const useTestDataStore2 = defineStore("testData2", () => {
     children: [swMovies.id,swSeries.id],
   };
 
-  const collections = reactive([sw, swSeries, swCloneWars, swCloneWarsS01, swMovies]);
+  const collections = reactive([sw, swSeries, swCloneWars, swCloneWarsS01, swCloneWarsS02, swMovies]);
   const rootCollections = reactive([sw]);
 
   const indicators: Indicator[] = [

@@ -13,17 +13,15 @@ const testData2 = useTestDataStore2();
     
     <div class="grid grid-cols-3 gap-4 mt-5">
 
-      <div v-for="(collection, i) in testData2.collections" :key="i">
+      <div v-for="(collection, i) in testData2.rootCollections" :key="i">
         <RouterLink
-          :to="{ name: routeDetailCollection, params: { franchiseId: collection.id } }" 
+          :to="{ name: routeDetailCollection, params: { collectionId: collection.id } }" 
           custom
           v-slot="{ navigate }"
         >
           <ListingMovieItem
-            :name="franchise.title"
-            :description="franchise.description"
-            :movies="franchise.movies?.length ?? 0"
-            :series="franchise.series?.length ?? 0"
+            :name="collection.name"
+            :description="collection.description"
             @click="navigate"
           />
         </RouterLink>
