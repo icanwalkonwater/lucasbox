@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useArrayEmpty } from "@/hooks";
+import { useArrayNotEmpty } from "@/composables";
 import type { Collection } from "@/stores/testData2";
-import { ChevronRightIcon } from "vue-tabler-icons";
+import { toRef, toRefs } from "vue";
 import CollectionChildrenList from "./CollectionChildrenList.vue";
 import InlineChildrenList from "./InlineChildrenList.vue";
 
@@ -9,11 +9,10 @@ const props = defineProps<{
   collection: Collection,
 }>();
 
-console.log(props.collection);
-console.log(props.collection.children);
+const { collection } = toRefs(props);
 
-const hasChildren = useArrayEmpty(props.collection.children);
-const hasInlineChildren = useArrayEmpty(props.collection.inlineChildren);
+const hasChildren = useArrayNotEmpty(toRef(collection.value, "children"));
+const hasInlineChildren = useArrayNotEmpty(toRef(collection.value, "inlineChildren"));
 </script>
 
 <template>

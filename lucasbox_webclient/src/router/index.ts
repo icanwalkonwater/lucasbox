@@ -1,4 +1,5 @@
 import CollectionChildrenList from "@/components/collection/CollectionChildrenList.vue";
+import CollectionChildrenPanel from "@/components/collection/CollectionChildrenPanel.vue";
 import ToDo from "@/components/ToDo.vue";
 import CollectionView from "@/views/CollectionView.vue";
 import HomeView from "@/views/HomeView.vue";
@@ -42,7 +43,7 @@ const router = createRouter({
         {
           path: "c/:childId(\\d+)",
           name: routeDetailCollectionChild,
-          component: CollectionChildrenList,
+          component: CollectionChildrenPanel,
         },
         {
           path: "i/:itemId(\\d+)",

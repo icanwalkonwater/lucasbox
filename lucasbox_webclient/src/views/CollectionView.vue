@@ -14,8 +14,6 @@ const collectionId = computed(() => parseInt(collectionIdRaw.value));
 
 const collection = computed(() => testData.collections.find(({ id }) => id === collectionId.value));
 
-console.log(collectionId, collection);
-
 watchEffect(() => {
   if (collection.value === undefined) {
     useRouter().replace({ name: route404 });
@@ -30,8 +28,7 @@ watchEffect(() => {
         <CollectionBody v-if="collection !== undefined" :collection="collection!" />
       </div>
       <div>
-        <RouterView>
-        </RouterView>
+        <RouterView />
       </div>
     </div>
   </PageLayout>
