@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useArrayFindNotNull } from "@/composables";
-import { useTestDataStore2 } from "@/stores/testData2";
+import { useCollectionById } from "@/stores/testData2";
 import { useArrayMap } from "@vueuse/shared";
 import { ref, toRefs } from "vue";
 
@@ -8,10 +8,8 @@ const props = defineProps<{
   childrenIds: number[],
 }>();
 
-const testData = useTestDataStore2();
-
 const { childrenIds } = toRefs(props);
-const children = useArrayMap(childrenIds, (el) => testData.collections.find(({ id }) => el === id)!);
+const children = useArrayMap(childrenIds, (el) => useCollectionById(el).value);
 
 const selected = ref(props.childrenIds[0]);
 const selectedChild = useArrayFindNotNull(children.value, ({ id }) => id === selected.value);

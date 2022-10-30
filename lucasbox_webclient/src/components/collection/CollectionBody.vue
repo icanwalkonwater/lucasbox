@@ -9,10 +9,8 @@ const props = defineProps<{
   collection: Collection,
 }>();
 
-const { collection } = toRefs(props);
-
-const hasChildren = useArrayNotEmpty(toRef(collection.value, "children"));
-const hasInlineChildren = useArrayNotEmpty(toRef(collection.value, "inlineChildren"));
+const hasChildren = useArrayNotEmpty(toRef(props.collection, "children"));
+const hasInlineChildren = useArrayNotEmpty(toRef(props.collection, "inlineChildren"));
 </script>
 
 <template>

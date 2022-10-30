@@ -1,5 +1,6 @@
+import { get, type MaybeRef } from "@vueuse/shared";
 import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { computed, reactive } from "vue";
 
 export interface WithId {
   id: number,
@@ -149,3 +150,9 @@ export const useTestDataStore2 = defineStore("testData2", () => {
 
   return { indicators, rootCollections, collections };
 });
+
+export const useCollectionById = (collId: MaybeRef<number>) => {
+  const store = useTestDataStore2();
+
+  return computed(() => store.collections.find(({ id }) => id === get(collId))!)!;
+}

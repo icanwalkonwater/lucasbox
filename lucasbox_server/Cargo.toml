@@ -3,6 +3,10 @@ name = "lucasbox_server"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+axum = { version ="0.5", default-features = false, features = ["http1", "http2", "macros", "tower-log"] }
+async-graphql = "4.0"
+async-graphql-axum = "4.0"
+diesel = { version = "2.0", default-features = false, features = ["postgres", "without-deprecated"] }
+diesel-async = { version = "0.1", features = ["postgres"] }
+tokio = { version = "1.21", features = ["rt", "rt-multi-thread", "macros"] }
