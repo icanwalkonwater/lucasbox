@@ -6,7 +6,7 @@ use diesel_async::RunQueryDsl;
 
 use crate::{
     entities::{CollectionItem, Tag},
-    get_connection,
+    extract_connexion,
     schema_db::item_files,
 };
 
@@ -31,7 +31,7 @@ impl ItemFile {
     async fn tags(&self, ctx: &Context<'_>) -> Result<Vec<Tag>> {
         use crate::schema_db::{tag_item_files, tags};
 
-        let mut conn = get_connection(ctx).await?;
+        let mut conn = extract_connexion(ctx).await?;
         Ok(tag_item_files::table
             .inner_join(tags::table)
             .filter(tag_item_files::item_file_id.eq(self.id))

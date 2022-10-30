@@ -10,7 +10,7 @@ pub mod schema_graphql;
 
 pub type DbConnection = Arc<Mutex<AsyncPgConnection>>;
 
-pub(crate) async fn get_connection<'a>(
+pub(crate) async fn extract_connexion<'a>(
     ctx: &'a Context<'_>,
 ) -> Result<MutexGuard<'a, AsyncPgConnection>> {
     Ok(ctx.data::<DbConnection>()?.lock().await)
