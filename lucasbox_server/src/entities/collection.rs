@@ -1,6 +1,6 @@
 use std::time::SystemTime;
 
-use async_graphql::{ComplexObject, Context, Result, SimpleObject};
+use async_graphql::{ComplexObject, Context, Object, Result, SimpleObject};
 use diesel::*;
 use diesel_async::RunQueryDsl;
 
@@ -52,6 +52,29 @@ impl Collection {
         let mut conn = extract_connexion(ctx).await?;
         Ok(CollectionItem::belonging_to(self)
             .load::<CollectionItem>(&mut *conn)
+            .await?)
+    }
+}
+
+#[derive(Default)]
+pub struct CollectionRootQuery;
+
+#[Object]
+impl CollectionRootQuery {
+    async fn collection(&self, ctx: &Context<'_>, id: i32) -> Result<Option<Collection>> {
+        use crate::schema_db::collections::dsl::collections;
+
+        let mut conn = extract_connexion(ctx).await?;
+        Ok(collections.find(id).first(&mut *conn).await.optional()?)
+    }
+
+    async fn root_collections(&self, ctx: &Context<'_>) -> Result<Vec<Collection>> {
+        use crate::schema_db::collections::dsl::*;
+
+        let mut conn = extract_connexion(ctx).await?;
+        Ok(collections
+            .filter(parent_id.is_null())
+            .load::<Collection>(&mut *conn)
             .await?)
     }
 }

@@ -32,9 +32,13 @@ async fn main() {
         AsyncPgConnection::establish(database_url).await.unwrap(),
     ));
 
-    let schema = Schema::build(Query, Mutation::default(), Subscription::default())
-        .data(connection)
-        .finish();
+    let schema = Schema::build(
+        Query::default(),
+        Mutation::default(),
+        Subscription::default(),
+    )
+    .data(connection)
+    .finish();
 
     let app = Router::new()
         .route("/graphql", get(graphiql).post(graphql_handler))

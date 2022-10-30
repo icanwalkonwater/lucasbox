@@ -1,5 +1,5 @@
-use std::time::SystemTime;
 use async_graphql::SimpleObject;
+use std::time::SystemTime;
 
 #[derive(Clone, Debug, SimpleObject)]
 pub struct User {

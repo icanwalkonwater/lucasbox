@@ -1,9 +1,12 @@
-use async_graphql::SimpleObject;
-use diesel::{Associations, Identifiable, Queryable};
 use std::time::SystemTime;
+
+use async_graphql::{Context, Object, Result, SimpleObject};
+use diesel::*;
+use diesel_async::RunQueryDsl;
 
 use crate::{
     entities::{Collection, CollectionItem, ItemFile},
+    extract_connexion,
     schema_db::{tag_collection_items, tag_collections, tag_item_files, tags},
 };
 
@@ -42,4 +45,24 @@ pub struct TagCollectionItem {
 pub struct TagItemFile {
     pub tag_id: i32,
     pub item_file_id: i32,
+}
+
+#[derive(Default)]
+pub struct TagRootQuery;
+
+#[Object]
+impl TagRootQuery {
+    async fn tag(&self, ctx: &Context<'_>, id: i32) -> Result<Option<Tag>> {
+        use crate::schema_db::tags::dsl::tags;
+
+        let mut conn = extract_connexion(ctx).await?;
+        Ok(tags.find(id).first(&mut *conn).await.optional()?)
+    }
+
+    async fn tags(&self, ctx: &Context<'_>) -> Result<Vec<Tag>> {
+        use crate::schema_db::tags::dsl::tags;
+
+        let mut conn = extract_connexion(ctx).await?;
+        Ok(tags.load(&mut *conn).await?)
+    }
 }

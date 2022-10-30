@@ -1,6 +1,6 @@
 use std::time::SystemTime;
 
-use async_graphql::{ComplexObject, Context, Result, SimpleObject};
+use async_graphql::{ComplexObject, Context, Object, Result, SimpleObject};
 use diesel::*;
 use diesel_async::RunQueryDsl;
 
@@ -38,5 +38,18 @@ impl ItemFile {
             .select(tags::all_columns)
             .load::<Tag>(&mut *conn)
             .await?)
+    }
+}
+
+#[derive(Default)]
+pub struct ItemFileRootQuery;
+
+#[Object]
+impl ItemFileRootQuery {
+    async fn item_file(&self, ctx: &Context<'_>, id: i32) -> Result<Option<ItemFile>> {
+        use crate::schema_db::item_files::dsl::item_files;
+
+        let mut conn = extract_connexion(ctx).await?;
+        Ok(item_files.find(id).first(&mut *conn).await.optional()?)
     }
 }
