@@ -5,3 +5,5 @@ DROP TABLE tags;
 DROP TABLE item_files;
 DROP TABLE collection_items;
 DROP TABLE collections;
+DROP TABLE user_refresh_tokens;
+DROP TABLE users;

@@ -6,6 +6,7 @@ diesel::table! {
         collection_id -> Int4,
         name -> Text,
         description -> Nullable<Text>,
+        created_by -> Nullable<Uuid>,
         updated_at -> Timestamp,
         created_at -> Timestamp,
     }
@@ -19,6 +20,7 @@ diesel::table! {
         level -> Int2,
         name -> Text,
         description -> Nullable<Text>,
+        created_by -> Nullable<Uuid>,
         updated_at -> Timestamp,
         created_at -> Timestamp,
     }
@@ -30,6 +32,7 @@ diesel::table! {
         collection_item_id -> Int4,
         name -> Text,
         filepath -> Text,
+        created_by -> Nullable<Uuid>,
         updated_at -> Timestamp,
         deleted_at -> Timestamp,
     }
@@ -65,14 +68,37 @@ diesel::table! {
     }
 }
 
+diesel::table! {
+    user_refresh_tokens (user_id, token) {
+        user_id -> Uuid,
+        token -> Text,
+        created_at -> Timestamp,
+    }
+}
+
+diesel::table! {
+    users (id) {
+        id -> Uuid,
+        admin -> Bool,
+        username -> Varchar,
+        password -> Text,
+        updated_at -> Timestamp,
+        created_at -> Timestamp,
+    }
+}
+
 diesel::joinable!(collection_items -> collections (collection_id));
+diesel::joinable!(collection_items -> users (created_by));
+diesel::joinable!(collections -> users (created_by));
 diesel::joinable!(item_files -> collection_items (collection_item_id));
+diesel::joinable!(item_files -> users (created_by));
 diesel::joinable!(tag_collection_items -> collection_items (collection_item_id));
 diesel::joinable!(tag_collection_items -> tags (tag_id));
 diesel::joinable!(tag_collections -> collections (collection_id));
 diesel::joinable!(tag_collections -> tags (tag_id));
 diesel::joinable!(tag_item_files -> item_files (item_file_id));
 diesel::joinable!(tag_item_files -> tags (tag_id));
+diesel::joinable!(user_refresh_tokens -> users (user_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     collection_items,
@@ -82,4 +108,6 @@ diesel::allow_tables_to_appear_in_same_query!(
     tag_collections,
     tag_item_files,
     tags,
+    user_refresh_tokens,
+    users,
 );

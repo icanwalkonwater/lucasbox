@@ -1,3 +1,20 @@
+CREATE TABLE users
+(
+    id         UUID PRIMARY KEY     DEFAULT gen_random_uuid(),
+    admin      BOOLEAN     NOT NULL DEFAULT FALSE,
+    username   VARCHAR(20) NOT NULL,
+    password   TEXT        NOT NULL,
+    updated_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE user_refresh_tokens
+(
+    user_id    UUID      NOT NULL REFERENCES users (id),
+    token      TEXT PRIMARY KEY,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE collections
 (
     id          SERIAL PRIMARY KEY,
@@ -6,6 +23,7 @@ CREATE TABLE collections
     level       SMALLINT  NOT NULL,
     name        TEXT      NOT NULL,
     description TEXT      NULL,
+    created_by  UUID      NULL REFERENCES users (id), -- Default to root user
     updated_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -16,6 +34,7 @@ CREATE TABLE collection_items
     collection_id INTEGER   NOT NULL REFERENCES collections (id),
     name          TEXT      NOT NULL,
     description   TEXT      NULL,
+    created_by    UUID      NULL REFERENCES users (id), -- Default to root user
     updated_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -26,6 +45,7 @@ CREATE TABLE item_files
     collection_item_id INTEGER   NOT NULL REFERENCES collection_items (id),
     name               TEXT      NOT NULL,
     filepath           TEXT      NOT NULL,
+    created_by         UUID      NULL REFERENCES users (id), -- Default to root user
     updated_at         TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at         TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -59,6 +79,7 @@ CREATE TABLE tag_item_files
     PRIMARY KEY (tag_id, item_file_id)
 );
 
+SELECT diesel_manage_updated_at('users');
 SELECT diesel_manage_updated_at('collections');
 SELECT diesel_manage_updated_at('collection_items');
 SELECT diesel_manage_updated_at('item_files');

@@ -3,15 +3,17 @@ use std::time::SystemTime;
 use async_graphql::{ComplexObject, Context, Object, Result, SimpleObject};
 use diesel::*;
 use diesel_async::RunQueryDsl;
+use uuid::Uuid;
 
 use crate::{
-    entities::{CollectionItem, Tag},
+    entities::{CollectionItem, Tag, User},
     extract_connexion,
-    schema_db::collections,
+    schema_db::{collections},
 };
 
 #[derive(Clone, Debug, SimpleObject, Queryable, Identifiable, Associations)]
 #[diesel(belongs_to(Self, foreign_key = parent_id))]
+#[diesel(belongs_to(User, foreign_key = created_by))]
 #[graphql(complex)]
 pub struct Collection {
     pub id: i32,
@@ -21,6 +23,8 @@ pub struct Collection {
     pub level: i16,
     pub name: String,
     pub description: Option<String>,
+    #[graphql(skip)]
+    pub created_by: Option<Uuid>,
     #[graphql(skip)]
     pub updated_at: SystemTime,
     #[graphql(skip)]
