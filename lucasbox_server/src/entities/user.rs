@@ -6,12 +6,14 @@ use diesel_async::RunQueryDsl;
 use uuid::Uuid;
 
 use crate::{
-    auth::{generate_password_hash, verify_password_hash},
+    auth::{
+        generate_jwt_for_user, generate_password_hash, generate_refresh_token, verify_password_hash,
+    },
     extract_connexion,
+    schema_db::{user_refresh_tokens, users},
     GlobalConfig,
-    schema_db::{users, user_refresh_tokens},
 };
-use crate::auth::{generate_jwt_for_user, generate_refresh_token};
+use crate::auth::make_sure_is_connected;
 
 /// Main user object
 #[derive(Clone, Debug, SimpleObject, Queryable, Identifiable)]
@@ -38,9 +40,11 @@ pub struct UserRootQuery;
 
 #[Object]
 impl UserRootQuery {
-    async fn me(&self, ctx: &Context<'_>) -> Result<Option<User>> {
-        let mut _conn = extract_connexion(ctx).await?;
-        todo!()
+    async fn me(&self, ctx: &Context<'_>) -> Result<User> {
+        let payload = make_sure_is_connected(ctx)?;
+        let mut conn = extract_connexion(ctx).await?;
+
+        Ok(users::table.find(payload.user_id).first::<User>(&mut *conn).await?)
     }
 }
 
@@ -49,7 +53,13 @@ pub struct UserMutation;
 
 #[Object]
 impl UserMutation {
-    async fn register(&self, ctx: &Context<'_>, username: String, password: String, invite_code: Option<String>) -> Result<bool> {
+    async fn register(
+        &self,
+        ctx: &Context<'_>,
+        username: String,
+        password: String,
+        invite_code: Option<String>,
+    ) -> Result<bool> {
         let mut conn = extract_connexion(ctx).await?;
         let config = ctx.data::<GlobalConfig>().unwrap();
 
@@ -90,7 +100,12 @@ impl UserMutation {
         Ok(true)
     }
 
-    async fn login(&self, ctx: &Context<'_>, username: String, password: String) -> Result<AuthTokens> {
+    async fn login(
+        &self,
+        ctx: &Context<'_>,
+        username: String,
+        password: String,
+    ) -> Result<AuthTokens> {
         let mut conn = extract_connexion(ctx).await?;
 
         let user = users::table
@@ -126,7 +141,8 @@ impl UserMutation {
             .await?;
 
         Ok(AuthTokens {
-            access_token, refresh_token
+            access_token,
+            refresh_token,
         })
     }
 

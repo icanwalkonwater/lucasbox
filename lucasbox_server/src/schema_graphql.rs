@@ -1,10 +1,12 @@
 use async_graphql::{EmptySubscription, MergedObject};
 
 use crate::entities::{
-    collection::CollectionRootQuery, collection_item::CollectionItemRootQuery,
-    item_file::ItemFileRootQuery, tag::TagRootQuery,
+    collection::CollectionRootQuery,
+    collection_item::CollectionItemRootQuery,
+    item_file::ItemFileRootQuery,
+    tag::TagRootQuery,
+    user::{UserMutation, UserRootQuery},
 };
-use crate::entities::user::{UserMutation, UserRootQuery};
 
 pub type Schema = async_graphql::Schema<Query, Mutation, Subscription>;
 

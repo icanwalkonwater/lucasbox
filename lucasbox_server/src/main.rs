@@ -4,27 +4,45 @@ use async_graphql::http::GraphiQLSource;
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
 use axum::{
     extract::Extension,
+    headers::{authorization::Bearer, Authorization},
     response::{Html, IntoResponse},
     routing::get,
-    Router, Server,
+    Router, Server, TypedHeader,
 };
 use diesel_async::{AsyncConnection, AsyncPgConnection};
 use jwt_simple::algorithms::HS512Key;
 use tokio::sync::Mutex;
 
 use lucasbox_server::{
+    auth::verify_jwt_token,
     schema_graphql::{Mutation, Query, Schema, Subscription},
     GlobalConfig,
 };
 
-async fn graphql_handler(schema: Extension<Schema>, req: GraphQLRequest) -> GraphQLResponse {
-    schema.execute(req.into_inner()).await.into()
+async fn graphql_handler(
+    schema: Extension<Schema>,
+    global_config: Extension<GlobalConfig>,
+    auth: Option<TypedHeader<Authorization<Bearer>>>,
+    req: GraphQLRequest,
+) -> GraphQLResponse {
+    let auth_info = auth
+        .and_then(|token| verify_jwt_token(&global_config, token.token()));
+
+    let req = req.into_inner();
+    let request = if let Some(auth_info) = auth_info {
+        req.data(auth_info)
+    } else {
+        req
+    };
+
+    schema.execute(request).await.into()
 }
 
 async fn graphiql() -> impl IntoResponse {
     Html(
         GraphiQLSource::build()
             .endpoint("http://localhost:8080/graphql")
+            .credentials("include")
             .finish(),
     )
 }
@@ -37,6 +55,8 @@ async fn main() {
     dotenvy::from_filename(".env.dev").ok();
 
     dotenvy::dotenv().ok();
+
+    env_logger::init();
 
     let config = GlobalConfig {
         database_url: std::env::var("DATABASE_URL").unwrap(),
@@ -64,10 +84,12 @@ async fn main() {
     )
     .data(connection)
     .data(config.clone())
+    .extension(async_graphql::extensions::Logger)
     .finish();
 
     let app = Router::new()
         .route("/graphql", get(graphiql).post(graphql_handler))
+        .layer(Extension(config.clone()))
         .layer(Extension(schema));
 
     println!("Listening at {}", &config.bind_address);

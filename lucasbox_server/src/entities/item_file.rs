@@ -6,6 +6,7 @@ use diesel_async::RunQueryDsl;
 use uuid::Uuid;
 
 use crate::{
+    auth::make_sure_is_connected,
     entities::{CollectionItem, Tag, User},
     extract_connexion,
     schema_db::item_files,
@@ -53,6 +54,7 @@ impl ItemFileRootQuery {
     async fn item_file(&self, ctx: &Context<'_>, id: i32) -> Result<Option<ItemFile>> {
         use crate::schema_db::item_files::dsl::item_files;
 
+        make_sure_is_connected(ctx)?;
         let mut conn = extract_connexion(ctx).await?;
         Ok(item_files.find(id).first(&mut *conn).await.optional()?)
     }

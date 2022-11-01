@@ -5,6 +5,7 @@ use diesel::*;
 use diesel_async::RunQueryDsl;
 
 use crate::{
+    auth::make_sure_is_connected,
     entities::{Collection, CollectionItem, ItemFile},
     extract_connexion,
     schema_db::{tag_collection_items, tag_collections, tag_item_files, tags},
@@ -55,6 +56,7 @@ impl TagRootQuery {
     async fn tag(&self, ctx: &Context<'_>, id: i32) -> Result<Option<Tag>> {
         use crate::schema_db::tags::dsl::tags;
 
+        make_sure_is_connected(ctx)?;
         let mut conn = extract_connexion(ctx).await?;
         Ok(tags.find(id).first(&mut *conn).await.optional()?)
     }
@@ -62,6 +64,7 @@ impl TagRootQuery {
     async fn tags(&self, ctx: &Context<'_>) -> Result<Vec<Tag>> {
         use crate::schema_db::tags::dsl::tags;
 
+        make_sure_is_connected(ctx)?;
         let mut conn = extract_connexion(ctx).await?;
         Ok(tags.load(&mut *conn).await?)
     }

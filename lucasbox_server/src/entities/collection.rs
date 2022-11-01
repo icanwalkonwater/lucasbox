@@ -6,9 +6,10 @@ use diesel_async::RunQueryDsl;
 use uuid::Uuid;
 
 use crate::{
+    auth::make_sure_is_connected,
     entities::{CollectionItem, Tag, User},
     extract_connexion,
-    schema_db::{collections},
+    schema_db::collections,
 };
 
 #[derive(Clone, Debug, SimpleObject, Queryable, Identifiable, Associations)]
@@ -68,6 +69,7 @@ impl CollectionRootQuery {
     async fn collection(&self, ctx: &Context<'_>, id: i32) -> Result<Option<Collection>> {
         use crate::schema_db::collections::dsl::collections;
 
+        make_sure_is_connected(ctx)?;
         let mut conn = extract_connexion(ctx).await?;
         Ok(collections.find(id).first(&mut *conn).await.optional()?)
     }
@@ -75,6 +77,7 @@ impl CollectionRootQuery {
     async fn root_collections(&self, ctx: &Context<'_>) -> Result<Vec<Collection>> {
         use crate::schema_db::collections::dsl::*;
 
+        make_sure_is_connected(ctx)?;
         let mut conn = extract_connexion(ctx).await?;
         Ok(collections
             .filter(parent_id.is_null())
