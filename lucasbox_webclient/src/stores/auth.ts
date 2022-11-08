@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { useStorage } from "@vueuse/core";
 import gql from "graphql-tag";
-import { useMutation } from "@vue/apollo-composable";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { routeLogin } from "@/router";
@@ -11,11 +10,20 @@ import { httpLink } from "@/apollo";
 export const STORAGE_ACCESS_TOKEN_KEY = "accessToken";
 export const STORAGE_REFRESH_TOKEN_KEY = "refreshToken";
 
-const REFRESH_MUTATION = gql`
+const MUTATION_REFRESH = gql`
     mutation refresh($token: string!) {
         refresh(refreshToken: $token) {
             accessToken
         }
+    }
+`;
+
+const MUTATION_LOGIN = gql`
+    mutation login($username: string!, $password: string!) {
+      login(username: $username, password: $password) {
+        accessToken
+        refreshToken
+      }
     }
 `;
 
@@ -47,7 +55,7 @@ export const useTokenRefreshStore = defineStore("authTokenRefresh", () => {
     });
 
     return await refreshClient.mutate<{ accessToken?: string }, { token: string }>({
-      mutation: REFRESH_MUTATION,
+      mutation: MUTATION_REFRESH,
       variables: {
         token: authStore.refreshToken ?? "",
       },
