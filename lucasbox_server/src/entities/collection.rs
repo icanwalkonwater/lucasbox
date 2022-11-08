@@ -34,6 +34,10 @@ pub struct Collection {
 
 #[ComplexObject]
 impl Collection {
+    async fn root(&self) -> bool {
+        self.parent_id.is_none()
+    }
+
     async fn tags(&self, ctx: &Context<'_>) -> Result<Vec<Tag>> {
         use crate::schema_db::{tag_collections, tags};
 

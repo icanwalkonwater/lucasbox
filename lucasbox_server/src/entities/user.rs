@@ -51,6 +51,11 @@ impl UserRootQuery {
 #[derive(Default)]
 pub struct UserMutation;
 
+#[derive(Default, Debug, Copy, Clone, SimpleObject)]
+pub struct RegistrationResult {
+    pub success: bool,
+}
+
 #[Object]
 impl UserMutation {
     async fn register(
@@ -59,7 +64,7 @@ impl UserMutation {
         username: String,
         password: String,
         invite_code: Option<String>,
-    ) -> Result<bool> {
+    ) -> Result<RegistrationResult> {
         let mut conn = extract_connexion(ctx).await?;
         let config = ctx.data::<GlobalConfig>().unwrap();
 
@@ -97,7 +102,7 @@ impl UserMutation {
             .values(&value)
             .execute(&mut *conn)
             .await?;
-        Ok(true)
+        Ok(RegistrationResult { success: true })
     }
 
     async fn login(

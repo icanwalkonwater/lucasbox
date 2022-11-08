@@ -3,12 +3,15 @@ import ToDo from "@/components/ToDo.vue";
 import CollectionView from "@/views/CollectionView.vue";
 import HomeView from "@/views/HomeView.vue";
 import ListingView from "@/views/ListingView.vue";
+import LoginView from "@/views/LoginView.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const NotFoundView = () => import("@/views/NotFoundView.vue");
 const WipView = () => import("@/views/WipView.vue");
 
 export const routeHome = Symbol();
+export const routeLogin = Symbol();
+export const routeRegister = Symbol();
 export const routeListing = Symbol();
 export const routeDetailCollection = Symbol();
 export const routeDetailCollectionChild = Symbol();
@@ -26,6 +29,22 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/login',
+      name: routeLogin,
+      component: LoginView,
+      meta: {
+        noAuthRequired: true,
+      },
+    },
+    {
+      path: '/register',
+      name: routeRegister,
+      component: ToDo,
+      meta: {
+        noAuthRequired: true,
+      },
+    },
+    {
       path: "/listing",
       name: routeListing,
       component: ListingView,
@@ -38,6 +57,9 @@ const router = createRouter({
           path: "",
           name: routeDetailCollection,
           component: ToDo,
+          meta: {
+            noPanel: true,
+          },
         },
         {
           path: "c/:childId(\\d+)",
@@ -71,6 +93,12 @@ const router = createRouter({
       component: NotFoundView,
     },
   ],
+});
+
+router.beforeEach((to) => {
+  if (!(to.meta.noAuthRequired ?? false)) {
+    return { name: routeLogin };
+  }
 });
 
 export default router;
