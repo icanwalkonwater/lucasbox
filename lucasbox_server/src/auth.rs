@@ -1,9 +1,10 @@
 //! Authentication primitives for use elsewhere.
 
-use async_graphql::{Context, Error};
+use async_graphql::{Context};
 
 pub use jwt::*;
 pub use password::*;
+use crate::gql_errors::make_unauthorized_error;
 
 mod password {
     use argon2::{
@@ -71,7 +72,7 @@ pub(crate) fn make_sure_is_connected<'a>(ctx: &'a Context) -> async_graphql::Res
     if let Some(payload) = ctx.data_opt::<JwtPayload>() {
         Ok(payload)
     } else {
-        Err(Error::new("Unauthorized"))
+        Err(make_unauthorized_error())
     }
 }
 
@@ -79,6 +80,6 @@ pub(crate) fn make_sure_is_admin<'a>(ctx: &'a Context) -> async_graphql::Result<
     if let Some(payload) = ctx.data_opt::<JwtPayload>().filter(|auth| auth.admin) {
         Ok(payload)
     } else {
-        Err(Error::new("Unauthorized"))
+        Err(make_unauthorized_error())
     }
 }

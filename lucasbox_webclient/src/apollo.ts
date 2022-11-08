@@ -1,13 +1,26 @@
-import { createHttpLink, ApolloClient, InMemoryCache } from "@apollo/client";
-import {  } from "@apollo/client/utilities";
+import { createHttpLink, ApolloClient, InMemoryCache, ApolloLink } from "@apollo/client/core";
+import { tokenRefreshMiddleware } from "./apolloAutoRefresh";
+import { useAuthStore } from "./stores/auth";
 
-const httpLink = createHttpLink({
-    uri: "http://localhost:8080/graphql",
+export const httpLink = createHttpLink({
+  uri: import.meta.env.VITE_GRAPHQL_ENDPOINT_URL,
 });
 
-const cache = new InMemoryCache();
+const authMiddleware = new ApolloLink((operation, forward) => {
+  const authStore = useAuthStore();
+
+  if (authStore.accessToken != undefined) {
+    operation.setContext({
+      Headers: {
+        authorization: `Bearer ${authStore.accessToken}`,
+      },
+    });
+  }
+
+  return forward(operation);
+});
 
 export const apolloClient = new ApolloClient({
-    link: httpLink,
-    cache,
+  link: tokenRefreshMiddleware.concat(authMiddleware.concat(httpLink)),
+  cache: new InMemoryCache(),
 });

@@ -9,6 +9,7 @@ pub mod auth;
 pub mod entities;
 pub mod schema_db;
 pub mod schema_graphql;
+pub mod gql_errors;
 
 pub type DbConnection = Arc<Mutex<AsyncPgConnection>>;
 

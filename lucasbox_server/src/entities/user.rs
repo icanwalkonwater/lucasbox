@@ -14,6 +14,7 @@ use crate::{
     GlobalConfig,
 };
 use crate::auth::make_sure_is_connected;
+use crate::gql_errors::{ErrorCode, make_gql_error};
 
 /// Main user object
 #[derive(Clone, Debug, SimpleObject, Queryable, Identifiable)]
@@ -161,8 +162,8 @@ impl UserMutation {
             .first::<User>(&mut *conn)
             .await;
 
-        if let Err(diesel::result::Error::NotFound) = user {
-            return Err(Error::new("Invalid refresh token"));
+        if let Err(NotFound) = user {
+            return Err(make_gql_error("Invalid refresh token", ErrorCode::InvalidRefreshToken));
         }
 
         let user = user?;

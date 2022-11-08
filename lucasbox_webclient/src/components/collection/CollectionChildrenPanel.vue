@@ -19,7 +19,7 @@ const collection = useCollectionById(childId.value);
       <a>{{ child }}</a>
     </li>
     <li v-for="item in collection?.items ?? []" :key="item.id">
-        <a>{{ item.title }}</a>
+      <a>{{ item.title }}</a>
     </li>
   </div>
   {{ collection }}
