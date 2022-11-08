@@ -1,0 +1,23 @@
+{
+  "rootCollection": {
+    "nickname": "Franchise",
+    "features": [
+      "CHILD_COLLECTIONS"
+    ],
+    "defaultCollections": [
+      {
+        "nickname": "Movies",
+        "features": [
+          "ITEMS"
+        ]
+      },
+      {
+        "nickname": "Series",
+        "features": [
+          "CHILD_COLLECTIONS",
+          "CUSTOM_COLLECTIONS"
+        ]
+      }
+    ]
+  }
+}
