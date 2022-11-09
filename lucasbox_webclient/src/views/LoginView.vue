@@ -34,7 +34,7 @@ const handleLogin = async () => {
 <template>
   <form @submit.prevent="handleLogin">
     <div class="h-screen flex justify-center items-center">
-      <div class="card card-bordered w-1/3 h-fit">
+      <div class="card card-bordered md:w-1/3 h-fit">
         <div class="card-body">
           <p class="text-center text-xl">Login</p>
           <input 

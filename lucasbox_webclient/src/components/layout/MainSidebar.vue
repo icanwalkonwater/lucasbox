@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { routeUpload, routeHome, routeListing, routeSettings } from "@/router";
-import { HomeIcon, UploadIcon, SettingsIcon, SearchIcon } from "vue-tabler-icons";
+import { useAuthStore } from "@/stores/auth";
+import { HomeIcon, UploadIcon, SettingsIcon, SearchIcon, LogoutIcon } from "vue-tabler-icons";
+
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -33,6 +36,16 @@ import { HomeIcon, UploadIcon, SettingsIcon, SearchIcon } from "vue-tabler-icons
           <RouterLink :to="{ name: routeSettings }" active-class="active" class="place-content-center">
             <SettingsIcon />
           </RouterLink>
+        </li>
+      </ul>
+
+      <div class="divider"></div>
+
+      <ul class="menu">
+        <li>
+          <a class="place-content-center" @click="authStore.logout">
+            <LogoutIcon class="ml-1" />
+          </a>
         </li>
       </ul>
     </div>

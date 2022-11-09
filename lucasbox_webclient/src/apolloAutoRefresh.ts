@@ -2,25 +2,31 @@
 
 import { fromPromise, type Operation } from "@apollo/client/core";
 import { onError } from "@apollo/client/link/error";
+import { assert } from "@vueuse/shared";
 import { useAuthStore, useTokenRefreshStore } from "./stores/auth";
 
 const tryRefreshToken = async (operation: Operation) => {
   const refreshStore = useTokenRefreshStore();
 
   const res = await refreshStore.requestRefreshAccessToken();
-  console.log("Got response", res);
 
   // If no accessToken returned, well, at least we tried
   if (!res?.data?.refresh.accessToken) {
     throw Error("No access token");
   }
 
+  const newAccesstoken = res.data.refresh.accessToken;
+
+  const authStore = useAuthStore();
+  assert(!!authStore.refreshToken);
+  authStore.setTokens(newAccesstoken, authStore.refreshToken!);
+
   // Set the headers again for this operation
   const oldHeaders = operation.getContext().Headers;
   operation.setContext({
     headers: {
       ...oldHeaders,
-      Authorization: `Bearer ${res.data.refresh.accessToken}`,
+      Authorization: `Bearer ${newAccesstoken}`,
     },
   });
 };

@@ -3,7 +3,7 @@ import { reactiveComputed, useStorage } from "@vueuse/core";
 import gql from "graphql-tag";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
-import { routeLogin } from "@/router";
+import router, { routeLogin } from "@/router";
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 import { apolloClient, httpLink } from "@/apollo";
 import { useMutation, useQuery } from "@vue/apollo-composable";
@@ -45,8 +45,8 @@ export const useMeQuery = () => {
 };
 
 export const useAuthStore = defineStore("auth", () => {
-  const accessToken = useStorage<string | undefined>(STORAGE_ACCESS_TOKEN_KEY, undefined);
-  const refreshToken = useStorage<string | undefined>(STORAGE_REFRESH_TOKEN_KEY, undefined);
+  const accessToken = useStorage<string | null>(STORAGE_ACCESS_TOKEN_KEY, null);
+  const refreshToken = useStorage<string | null>(STORAGE_REFRESH_TOKEN_KEY, null);
 
   const isLoggedIn = computed(() => !!(accessToken.value && refreshToken.value));
 
@@ -58,10 +58,9 @@ export const useAuthStore = defineStore("auth", () => {
   // Logout, clear everything
   const logout = async () => {
     localStorage.clear();
-    await apolloClient.clearStore();
+    await apolloClient.cache.reset();
 
-    const router = useRouter();
-    router.push({ name: routeLogin });
+    await router.push({ name: routeLogin });
   };
 
   return { accessToken, refreshToken, isLoggedIn, setTokens, logout };
