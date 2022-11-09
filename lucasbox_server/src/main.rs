@@ -14,6 +14,7 @@ use diesel_async::{AsyncConnection, AsyncPgConnection};
 use jwt_simple::algorithms::HS512Key;
 use tokio::sync::Mutex;
 use tower_http::cors::{Any, CorsLayer};
+use tower_http::trace::TraceLayer;
 
 use lucasbox_server::{
     auth::verify_jwt_token,
@@ -96,9 +97,10 @@ async fn main() {
 
     let app = Router::new()
         .route("/graphql", get(graphiql).post(graphql_handler))
+        .layer(TraceLayer::new_for_http())
+        .layer(cors)
         .layer(Extension(config.clone()))
-        .layer(Extension(schema))
-        .layer(cors);
+        .layer(Extension(schema));
 
     println!("Listening at {}", &config.bind_address);
 
