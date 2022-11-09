@@ -9,9 +9,11 @@ use axum::{
     routing::get,
     Router, Server, TypedHeader,
 };
+use axum::http::Method;
 use diesel_async::{AsyncConnection, AsyncPgConnection};
 use jwt_simple::algorithms::HS512Key;
 use tokio::sync::Mutex;
+use tower_http::cors::{Any, CorsLayer};
 
 use lucasbox_server::{
     auth::verify_jwt_token,
@@ -87,10 +89,16 @@ async fn main() {
     .extension(async_graphql::extensions::Logger)
     .finish();
 
+    let cors = CorsLayer::new()
+        .allow_methods([Method::OPTIONS, Method::GET, Method::POST])
+        .allow_headers(Any)
+        .allow_origin(Any);
+
     let app = Router::new()
         .route("/graphql", get(graphiql).post(graphql_handler))
         .layer(Extension(config.clone()))
-        .layer(Extension(schema));
+        .layer(Extension(schema))
+        .layer(cors);
 
     println!("Listening at {}", &config.bind_address);
 
