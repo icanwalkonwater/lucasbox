@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { useCollectionById, useTestDataStore2 } from "@/stores/testData2";
+import { useCollectionById } from "@/stores/testData2";
 import { useRouteParams } from "@vueuse/router";
 import { computed } from "vue";
-
-const testData = useTestDataStore2();
 
 const childIdRaw = useRouteParams<string>("childId");
 const childId = computed(() => parseInt(childIdRaw.value));

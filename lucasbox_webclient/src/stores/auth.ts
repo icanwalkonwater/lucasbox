@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
-import { reactiveComputed, useStorage } from "@vueuse/core";
+import { useStorage } from "@vueuse/core";
 import gql from "graphql-tag";
 import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
 import router, { routeLogin } from "@/router";
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 import { apolloClient, httpLink } from "@/apollo";

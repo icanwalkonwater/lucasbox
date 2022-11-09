@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useArrayNotEmpty } from "@/composables";
 import type { Collection } from "@/stores/testData2";
-import { toRef, toRefs } from "vue";
+import { toRef } from "vue";
 import CollectionChildrenList from "./CollectionChildrenList.vue";
 import InlineChildrenList from "./InlineChildrenList.vue";
 

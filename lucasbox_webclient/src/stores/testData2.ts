@@ -155,4 +155,4 @@ export const useCollectionById = (collId: MaybeRef<number>) => {
   const store = useTestDataStore2();
 
   return computed(() => store.collections.find(({ id }) => id === get(collId))!)!;
-}
+};

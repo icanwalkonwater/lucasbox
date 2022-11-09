@@ -2,12 +2,10 @@
 import CollectionBody from "@/components/collection/CollectionBody.vue";
 import PageLayout from "@/components/layout/PageLayout.vue";
 import { route404 } from "@/router";
-import { useCollectionById, useTestDataStore2 } from "@/stores/testData2";
+import { useCollectionById } from "@/stores/testData2";
 import { useRouteParams } from "@vueuse/router";
 import { computed, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
-
-const testData = useTestDataStore2();
 
 const collectionIdRaw = useRouteParams<string>("collectionId");
 const collectionId = computed(() => parseInt(collectionIdRaw.value));

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { routeDetailCollectionChild } from "@/router";
-import { useCollectionById, useTestDataStore2 } from "@/stores/testData2";
+import { useCollectionById } from "@/stores/testData2";
 import { useArrayMap } from "@vueuse/shared";
 import { toRefs } from "vue";
 import { ChevronRightIcon } from "vue-tabler-icons";
