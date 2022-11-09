@@ -1,4 +1,5 @@
-import { createHttpLink, ApolloClient, InMemoryCache, ApolloLink } from "@apollo/client/core";
+import { createHttpLink, ApolloClient, InMemoryCache, ApolloLink, from } from "@apollo/client/core";
+import { provideApolloClient } from "@vue/apollo-composable";
 import { tokenRefreshMiddleware } from "./apolloAutoRefresh";
 import { useAuthStore } from "./stores/auth";
 
@@ -9,10 +10,10 @@ export const httpLink = createHttpLink({
 const authMiddleware = new ApolloLink((operation, forward) => {
   const authStore = useAuthStore();
 
-  if (authStore.accessToken != undefined) {
+  if (authStore.isLoggedIn) {
     operation.setContext({
-      Headers: {
-        authorization: `Bearer ${authStore.accessToken}`,
+      headers: {
+        Authorization: `Bearer ${authStore.accessToken}`,
       },
     });
   }
@@ -21,6 +22,8 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 });
 
 export const apolloClient = new ApolloClient({
-  link: tokenRefreshMiddleware.concat(authMiddleware.concat(httpLink)),
+  link: from([tokenRefreshMiddleware, authMiddleware, httpLink]),
   cache: new InMemoryCache(),
 });
+
+provideApolloClient(apolloClient);

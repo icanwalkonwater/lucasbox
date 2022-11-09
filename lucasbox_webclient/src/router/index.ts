@@ -1,5 +1,6 @@
 import CollectionChildrenPanel from "@/components/collection/CollectionChildrenPanel.vue";
 import ToDo from "@/components/ToDo.vue";
+import { useAuthStore } from "@/stores/auth";
 import CollectionView from "@/views/CollectionView.vue";
 import HomeView from "@/views/HomeView.vue";
 import ListingView from "@/views/ListingView.vue";
@@ -29,7 +30,7 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/login',
+      path: "/login",
       name: routeLogin,
       component: LoginView,
       meta: {
@@ -37,7 +38,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/register',
+      path: "/register",
       name: routeRegister,
       component: ToDo,
       meta: {
@@ -97,7 +98,10 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   if (!(to.meta.noAuthRequired ?? false)) {
-    return { name: routeLogin };
+    const authStore = useAuthStore();
+    if (!authStore.isLoggedIn) {
+      return { name: routeLogin };
+    }
   }
 });
 

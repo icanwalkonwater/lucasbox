@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { useMeQuery } from "@/stores/auth";
+
 defineProps<{ title: string }>();
+
+const { result, loading } = useMeQuery();
 </script>
 
 <template>
@@ -13,6 +17,7 @@ defineProps<{ title: string }>();
           <li><a>Stats</a></li>
         </ul>
       </div>
+      <span v-if="!loading">{{ result }}</span>      
     </div>
   </nav>
 </template>
