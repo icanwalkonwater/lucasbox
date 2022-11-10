@@ -10,49 +10,35 @@ import { useMutation, useQuery } from "@vue/apollo-composable";
 export const STORAGE_ACCESS_TOKEN_KEY = "accessToken";
 export const STORAGE_REFRESH_TOKEN_KEY = "refreshToken";
 
-const MUTATION_REFRESH = gql`
-    mutation refresh($token: String!) {
-        refresh(refreshToken: $token) {
-            accessToken
-        }
-    }
-`;
-
-const MUTATION_LOGIN = gql`
+export const useLoginMutation = () => {
+  return useMutation<{ login: { accessToken: string, refreshToken: string } }, { username: string, password: string }>(gql`
     mutation login($username: String!, $password: String!) {
       login(username: $username, password: $password) {
         accessToken
         refreshToken
       }
     }
-`;
+  `);
+};
 
-const MUTATION_REGISTER = gql`
+export const useRegisterMutation = () => {
+  return useMutation<{ register: { success: boolean } }, { username: string, password: string, inviteCode?: string }>(gql`
     mutation register($username: String!, $password: String!, $inviteCode: String) {
       register(username: $username, password: $password, inviteCode: $inviteCode) {
         success
       }
     }
-`;
+  `);
+};
 
-const QUERY_ME = gql`
+export const useMeQuery = () => {
+  return useQuery<{ username: string }>(gql`
     query Me {
       me {
         username
       }
     }
-`;
-
-export const useLoginMutation = () => {
-  return useMutation<{ login: { accessToken: string, refreshToken: string } }, { username: string, password: string }>(MUTATION_LOGIN);
-};
-
-export const useRegisterMutation = () => {
-  return useMutation<{ register: { success: boolean } }, { username: string, password: string, inviteCode?: string }>(MUTATION_REGISTER);
-};
-
-export const useMeQuery = () => {
-  return useQuery<{ username: string }>(QUERY_ME);
+  `);
 };
 
 export const useAuthStore = defineStore("auth", () => {
@@ -100,9 +86,15 @@ export const useTokenRefreshStore = defineStore("authTokenRefresh", () => {
     });
 
     return await refreshClient.mutate<{ refresh: { accessToken: string } }, { token: string }>({
-      mutation: MUTATION_REFRESH,
+      mutation: gql`
+        mutation refresh($token: String!) {
+            refresh(refreshToken: $token) {
+                accessToken
+            }
+        }
+      `,
       variables: {
-        token: authStore.refreshToken.value ?? "",
+        token: authStore.refreshToken ?? "",
       },
     });
   };

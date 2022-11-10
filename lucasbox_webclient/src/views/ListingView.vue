@@ -2,9 +2,15 @@
 import PageLayout from "@/components/layout/PageLayout.vue";
 import ListingMovieItem from "@/components/ListingMovieItem.vue";
 import { routeDetailCollection } from "@/router";
+import { useQueryRootCollections } from "@/stores/collections";
 import { useTestDataStore2 } from "@/stores/testData2";
+import { logErrorMessages } from "@vue/apollo-util";
 
 const testData2 = useTestDataStore2();
+
+const { result: rootCollections, loading, onError } = useQueryRootCollections();
+
+onError((err) => logErrorMessages(err));
 </script>
 
 <template>
