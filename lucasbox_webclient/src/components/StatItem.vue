@@ -18,7 +18,11 @@ withDefaults(defineProps<{
       </div>
       <div class="stat-title">{{ title }}</div>
       <div class="stat-value flex">
-        <AlertTriangleIcon v-if="critical" size="40" class="mr-2" />
+        <AlertTriangleIcon
+          v-if="critical"
+          size="40"
+          class="mr-2"
+        />
         {{ value }}
       </div>
     </div>

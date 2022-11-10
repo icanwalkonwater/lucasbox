@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import { useArrayFindNotNull } from "@/composables";
-import { useCollectionById } from "@/stores/testData2";
-import { useArrayMap } from "@vueuse/shared";
-import { ref, toRefs } from "vue";
+import { assert } from "@vueuse/shared";
+import { computed, ref } from "vue";
 
 const props = defineProps<{
-  childrenIds: number[],
+  children: { id: number, name: string, items: { id: number, name: string }[] }[],
 }>();
 
-const { childrenIds } = toRefs(props);
-const children = useArrayMap(childrenIds, (el) => useCollectionById(el).value);
-
-const selected = ref(props.childrenIds[0]);
-const selectedChild = useArrayFindNotNull(children.value, ({ id }) => id === selected.value);
+assert(props.children.length > 0);
+const selected = ref(0);
+const selectedChild = computed(() => props.children[selected.value]);
 </script>
 
 <template>
@@ -21,15 +17,25 @@ const selectedChild = useArrayFindNotNull(children.value, ({ id }) => id === sel
       <tr>
         <th colspan="2">
           <select v-model="selected" class="select w-full">
-            <option v-for="child in children" :key="child.id" :value="child.id">{{ child.name }}</option>
+            <option
+              v-for="(child, i) in children"
+              :key="i"
+              :value="i"
+            >
+              {{ child.name }}
+            </option>
           </select>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(child, index) in selectedChild.items ?? []" :key="child.id" class="hover">
+      <tr
+        v-for="(child, index) in selectedChild.items ?? []"
+        :key="child.id"
+        class="hover"
+      >
         <td>#{{ index }}</td>
-        <td>{{ child.title }}</td>
+        <td>{{ child.name }}</td>
       </tr>
     </tbody>
   </table>

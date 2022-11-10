@@ -47,7 +47,8 @@ const handleRegister = async () => {
             required
             minlength="3"
             placeholder="Username"
-            class="input input-bordered w-full">
+            class="input input-bordered w-full"
+          >
           <input
             v-model="password" 
             :disabled="registerLoading"
@@ -55,13 +56,15 @@ const handleRegister = async () => {
             required
             minlength="3"
             placeholder="Password"
-            class="input input-bordered w-full">
+            class="input input-bordered w-full"
+          >
           <input
             v-model="inviteCode"
             :disabled="registerLoading"
             type="text"
             placeholder="Invite code"
-            class="input input-bordered w-full">
+            class="input input-bordered w-full"
+          >
 
           <div v-if="registerError" class="alert alert-error justify-start">
             <CircleXIcon />
@@ -73,7 +76,12 @@ const handleRegister = async () => {
             <span>Sucess ! Redirecting to login page...</span>
           </div>
 
-          <input :disabled="registerLoading" type="submit" value="Register" class="btn btn-primary w-full">
+          <input
+            :disabled="registerLoading"
+            type="submit"
+            value="Register"
+            class="btn btn-primary w-full"
+          >
         </div>
       </div>
     </div>

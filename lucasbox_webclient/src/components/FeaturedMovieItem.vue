@@ -18,7 +18,11 @@ withDefaults(
       <div class="card-title">{{ title }}</div>
       <div class="flex flex-wrap gap-1">
         <slot name="featured"></slot>
-        <span v-for="(content, index) in badges" :key="index" class="movie-details badge opacity-0 transition-opacity">{{ content }}</span>
+        <span
+          v-for="(content, index) in badges"
+          :key="index"
+          class="movie-details badge opacity-0 transition-opacity"
+        >{{ content }}</span>
       </div>
       <p class="movie-details text-ellipsis opacity-0 transition-opacity">{{ description }}</p>
     </div>

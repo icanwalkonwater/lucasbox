@@ -44,7 +44,8 @@ const handleLogin = async () => {
             required
             minlength="3"
             placeholder="Username"
-            class="input input-bordered w-full">
+            class="input input-bordered w-full"
+          >
           <input
             v-model="password" 
             :disabled="loginLoading"
@@ -52,14 +53,20 @@ const handleLogin = async () => {
             required
             minlength="3"
             placeholder="Password"
-            class="input input-bordered w-full">
+            class="input input-bordered w-full"
+          >
 
           <div v-if="loginError" class="alert alert-error justify-start">
             <CircleXIcon />
             <span>{{ loginError.message }}</span>
           </div>
 
-          <input :disabled="loginLoading" type="submit" value="Login" class="btn btn-primary w-full">
+          <input
+            :disabled="loginLoading"
+            type="submit"
+            value="Login"
+            class="btn btn-primary w-full"
+          >
           <RouterLink
             :to="{ name: routeRegister }"
             :class="{'btn': true, 'btn-secondary': true, 'w-full': true, 'btn-disabled': loginLoading}"

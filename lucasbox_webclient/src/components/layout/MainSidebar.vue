@@ -10,7 +10,11 @@ const authStore = useAuthStore();
   <div class="sticky top-0 h-screen border-r">
     <div class="flex flex-col">
       <!-- Sidebar top icon -->
-      <RouterLink :to="{ name: routeHome }" custom v-slot="{ navigate }">
+      <RouterLink
+        :to="{ name: routeHome }"
+        custom
+        v-slot="{ navigate }"
+      >
         <button class="btn btn-ghost rounded-none" @click="navigate">
           <img class="h-7 w-7" src="/favicon.ico">
         </button>
@@ -18,22 +22,38 @@ const authStore = useAuthStore();
       <div class="h-10"></div>
       <ul class="menu">
         <li>
-          <RouterLink :to="{ name: routeHome }" exact-active-class="active" class="place-content-center">
+          <RouterLink
+            :to="{ name: routeHome }"
+            exact-active-class="active"
+            class="place-content-center"
+          >
             <HomeIcon />
           </RouterLink>
         </li>
         <li>
-          <RouterLink :to="{ name: routeListing }" active-class="active" class="place-content-center">
+          <RouterLink
+            :to="{ name: routeListing }"
+            active-class="active"
+            class="place-content-center"
+          >
             <SearchIcon />
           </RouterLink>
         </li>
         <li>
-          <RouterLink :to="{ name: routeUpload }" active-class="active" class="place-content-center">
+          <RouterLink
+            :to="{ name: routeUpload }"
+            active-class="active"
+            class="place-content-center"
+          >
             <UploadIcon />
           </RouterLink>
         </li>
         <li>
-          <RouterLink :to="{ name: routeSettings }" active-class="active" class="place-content-center">
+          <RouterLink
+            :to="{ name: routeSettings }"
+            active-class="active"
+            class="place-content-center"
+          >
             <SettingsIcon />
           </RouterLink>
         </li>

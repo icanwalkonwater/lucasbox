@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { useArrayNotEmpty } from "@/composables";
-import type { Collection } from "@/stores/testData2";
-import { toRef } from "vue";
+import { useArrayFilter } from "@vueuse/shared";
 import CollectionChildrenList from "./CollectionChildrenList.vue";
 import InlineChildrenList from "./InlineChildrenList.vue";
 
 const props = defineProps<{
-  collection: Collection,
+  collection: {
+    name: string,
+    description: string,
+    children: { id: number, name: string, inline: boolean, items: { id: number, name: string }[] }[],
+  },
 }>();
 
-const hasChildren = useArrayNotEmpty(toRef(props.collection, "children"));
-const hasInlineChildren = useArrayNotEmpty(toRef(props.collection, "inlineChildren"));
+const children = useArrayFilter(props.collection.children, (c) => !c.inline);
+const inlineChildren = useArrayFilter(props.collection.children, (c) => c.inline);
 </script>
 
 <template>
@@ -21,12 +23,12 @@ const hasInlineChildren = useArrayNotEmpty(toRef(props.collection, "inlineChildr
   </div>
 
   <!-- Nested collections -->
-  <div v-if="hasChildren" class="my-2">
-    <CollectionChildrenList :children-ids="collection.children!" />
+  <div v-if="children.length > 0" class="my-2">
+    <CollectionChildrenList :children="children" />
   </div>
 
   <!-- Inlined children -->
-  <div v-if="hasInlineChildren" class="m-2">
-    <InlineChildrenList :children-ids="collection.inlineChildren!" />
+  <div v-if="inlineChildren.length > 0" class="m-2">
+    <InlineChildrenList :children="inlineChildren" />
   </div>
 </template>

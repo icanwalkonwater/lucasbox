@@ -29,11 +29,21 @@ const files = [
       </tr>
     </thead>
     <tbody>
-      <tr v-for="file in files" :key="file.id" class="hover">
+      <tr
+        v-for="file in files"
+        :key="file.id"
+        class="hover"
+      >
         <td>{{ file.id }}</td>
         <td class="text-ellipsis">{{ file.name }}</td>
         <td>
-          <div v-for="(tag, index) in file.tags" :key="index" class="badge mr-1">{{ tag }}</div>
+          <div
+            v-for="(tag, index) in file.tags"
+            :key="index"
+            class="badge mr-1"
+          >
+            {{ tag }}
+          </div>
         </td>
         <td>{{ file.uploader }}</td>
         <td class="text-primary"><a :href="file.downloadLink"><FileDownloadIcon /></a></td>

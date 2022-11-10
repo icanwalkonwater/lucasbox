@@ -3,36 +3,38 @@ import PageLayout from "@/components/layout/PageLayout.vue";
 import ListingMovieItem from "@/components/ListingMovieItem.vue";
 import { routeDetailCollection } from "@/router";
 import { useQueryRootCollections } from "@/stores/collections";
-import { useTestDataStore2 } from "@/stores/testData2";
 import { logErrorMessages } from "@vue/apollo-util";
 
-const testData2 = useTestDataStore2();
-
-const { result: rootCollections, loading, onError } = useQueryRootCollections();
+const { result: queryRes, loading, onError } = useQueryRootCollections();
 
 onError((err) => logErrorMessages(err));
 </script>
 
 <template>
   <PageLayout>
-    <input type="text" placeholder="Search" class="input input-bordered input-md w-full" />
-    
-    <div class="grid grid-cols-3 gap-4 mt-5">
+    <input
+      type="text"
+      placeholder="Search"
+      class="input input-bordered input-md w-full"
+    />
 
-      <div v-for="(collection, i) in testData2.rootCollections" :key="i">
-        <RouterLink
-          :to="{ name: routeDetailCollection, params: { collectionId: collection.id } }" 
-          custom
-          v-slot="{ navigate }"
-        >
-          <ListingMovieItem
-            :name="collection.name"
-            :description="collection.description"
-            @click="navigate"
-          />
-        </RouterLink>
-      </div>
-      
+    <div class="grid grid-cols-3 gap-4 mt-5">
+      <template v-if="!loading">
+        <div v-for="collection in queryRes!.rootCollections" :key="collection.id">
+          <RouterLink
+            :to="{ name: routeDetailCollection, params: { collectionId: 0 } }"
+            custom
+            v-slot="{ navigate }"
+          >
+            <ListingMovieItem
+              :name="collection.name"
+              :description="collection.description"
+              :tags="collection.tags.map(({ label }) => label)"
+              @click="navigate"
+            />
+          </RouterLink>
+        </div>
+      </template>
     </div>
   </PageLayout>
 </template>

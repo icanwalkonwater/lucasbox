@@ -19,5 +19,12 @@ module.exports = {
     "object-curly-spacing": ["error", "always"],
     "eol-last": ["error", "always"],
     "quotes": ["error", "double", { avoidEscape: true }],
+    "vue/html-closing-bracket-newline": ["error"],
+    "vue/first-attribute-linebreak": ["error"],
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": 2,
+      "multiline": 1,
+    }],
+    "vue/multiline-html-element-content-newline": ["error"],
   },
 };

@@ -21,7 +21,6 @@ const mainClasses = computed(() => `m-2 md:m-5 ${props.class}`);
       <main :class="mainClasses">
         <slot></slot>
       </main>
-    
     </div>
   </div>
 </template>
