@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { routeHome } from "@/router";
+import { routeHome, routeRegister } from "@/router";
 import { useAuthStore, useLoginMutation } from "@/stores/auth";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { CircleXIcon } from "vue-tabler-icons";
 
 const authStore = useAuthStore();
@@ -52,7 +52,7 @@ const handleLogin = async () => {
             required
             minlength="3"
             placeholder="Password"
-            class="input input-bordered w-full" >
+            class="input input-bordered w-full">
 
           <div v-if="loginError" class="alert alert-error justify-start">
             <CircleXIcon />
@@ -60,7 +60,12 @@ const handleLogin = async () => {
           </div>
 
           <input :disabled="loginLoading" type="submit" value="Login" class="btn btn-primary w-full">
-          <a :class="{'btn': true, 'btn-secondary': true, 'w-full': true, 'btn-disabled': loginLoading}">Register</a>
+          <RouterLink
+            :to="{ name: routeRegister }"
+            :class="{'btn': true, 'btn-secondary': true, 'w-full': true, 'btn-disabled': loginLoading}"
+          >
+            Register
+          </RouterLink>
         </div>
       </div>
     </div>

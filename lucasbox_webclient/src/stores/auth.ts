@@ -27,6 +27,14 @@ const MUTATION_LOGIN = gql`
     }
 `;
 
+const MUTATION_REGISTER = gql`
+    mutation register($username: String!, $password: String!, $inviteCode: String) {
+      register(username: $username, password: $password, inviteCode: $inviteCode) {
+        success
+      }
+    }
+`;
+
 const QUERY_ME = gql`
     query Me {
       me {
@@ -39,13 +47,17 @@ export const useLoginMutation = () => {
   return useMutation<{ login: { accessToken: string, refreshToken: string } }, { username: string, password: string }>(MUTATION_LOGIN);
 };
 
+export const useRegisterMutation = () => {
+  return useMutation<{ register: { success: boolean } }, { username: string, password: string, inviteCode?: string }>(MUTATION_REGISTER);
+};
+
 export const useMeQuery = () => {
   return useQuery<{ username: string }>(QUERY_ME);
 };
 
 export const useAuthStore = defineStore("auth", () => {
-  const accessToken = useStorage<string | null>(STORAGE_ACCESS_TOKEN_KEY, null);
-  const refreshToken = useStorage<string | null>(STORAGE_REFRESH_TOKEN_KEY, null);
+  const accessToken = useStorage<string | null>(STORAGE_ACCESS_TOKEN_KEY, null, localStorage, { writeDefaults: false, listenToStorageChanges: true });
+  const refreshToken = useStorage<string | null>(STORAGE_REFRESH_TOKEN_KEY, null, localStorage, { writeDefaults: false, listenToStorageChanges: true });
 
   const isLoggedIn = computed(() => !!(accessToken.value && refreshToken.value));
 
@@ -56,6 +68,8 @@ export const useAuthStore = defineStore("auth", () => {
 
   // Logout, clear everything
   const logout = async () => {
+    accessToken.value = null;
+    refreshToken.value = null;
     localStorage.clear();
     await apolloClient.cache.reset();
 
@@ -88,7 +102,7 @@ export const useTokenRefreshStore = defineStore("authTokenRefresh", () => {
     return await refreshClient.mutate<{ refresh: { accessToken: string } }, { token: string }>({
       mutation: MUTATION_REFRESH,
       variables: {
-        token: authStore.refreshToken ?? "",
+        token: authStore.refreshToken.value ?? "",
       },
     });
   };

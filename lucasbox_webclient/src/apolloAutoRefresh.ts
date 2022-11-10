@@ -19,7 +19,7 @@ const tryRefreshToken = async (operation: Operation) => {
 
   const authStore = useAuthStore();
   assert(!!authStore.refreshToken);
-  authStore.setTokens(newAccesstoken, authStore.refreshToken!);
+  authStore.setTokens(newAccesstoken, authStore.refreshToken.value!);
 
   // Set the headers again for this operation
   const oldHeaders = operation.getContext().Headers;

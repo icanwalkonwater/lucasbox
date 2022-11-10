@@ -5,6 +5,7 @@ import CollectionView from "@/views/CollectionView.vue";
 import HomeView from "@/views/HomeView.vue";
 import ListingView from "@/views/ListingView.vue";
 import LoginView from "@/views/LoginView.vue";
+import RegisterView from "@/views/RegisterView.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const NotFoundView = () => import("@/views/NotFoundView.vue");
@@ -34,15 +35,15 @@ const router = createRouter({
       name: routeLogin,
       component: LoginView,
       meta: {
-        noAuthRequired: true,
+        authWorkflow: true,
       },
     },
     {
       path: "/register",
       name: routeRegister,
-      component: ToDo,
+      component: RegisterView,
       meta: {
-        noAuthRequired: true,
+        authWorkflow: true,
       },
     },
     {
@@ -97,8 +98,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  if (!(to.meta.noAuthRequired ?? false)) {
-    const authStore = useAuthStore();
+  const authStore = useAuthStore();
+
+  if (to.meta.authWorkflow) {
+    // If part of the auth workflow and already connected, get out of here
+    if (authStore.isLoggedIn) {
+      return { name: routeHome };
+    }
+  } else {
+    // If not part of the workflow and no auth, go connect yourself
     if (!authStore.isLoggedIn) {
       return { name: routeLogin };
     }
