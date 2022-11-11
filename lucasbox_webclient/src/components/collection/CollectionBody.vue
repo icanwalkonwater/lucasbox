@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useArrayFilter } from "@vueuse/shared";
 import CollectionChildrenList from "./CollectionChildrenList.vue";
-import InlineChildrenList from "./InlineChildrenList.vue";
+import CollectionInlineChildrenList from "./CollectionInlineChildrenList.vue";
 
 const props = defineProps<{
   collection: {
@@ -29,6 +29,6 @@ const inlineChildren = useArrayFilter(props.collection.children, (c) => c.inline
 
   <!-- Inlined children -->
   <div v-if="inlineChildren.length > 0" class="m-2">
-    <InlineChildrenList :children="inlineChildren" />
+    <CollectionInlineChildrenList :children="inlineChildren" />
   </div>
 </template>

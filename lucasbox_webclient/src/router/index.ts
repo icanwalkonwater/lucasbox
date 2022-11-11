@@ -1,4 +1,4 @@
-import CollectionChildrenPanel from "@/components/collection/CollectionChildrenPanel.vue";
+import CollectionChildrenPanelView from "@/views/CollectionChildrenPanelView.vue";
 import ToDo from "@/components/ToDo.vue";
 import { useAuthStore } from "@/stores/auth";
 import CollectionView from "@/views/CollectionView.vue";
@@ -66,7 +66,7 @@ const router = createRouter({
         {
           path: "c/:childId(\\d+)",
           name: routeDetailCollectionChild,
-          component: CollectionChildrenPanel,
+          component: CollectionChildrenPanelView,
         },
         {
           path: "i/:itemId(\\d+)",

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { routeDetailCollectionChild } from "@/router";
-import { ChevronRightIcon } from "vue-tabler-icons";
+import MenuLinkChevron from "../MenuLinkChevron.vue";
 
 defineProps<{
   children: { id: number, name: string }[],
@@ -10,14 +10,9 @@ defineProps<{
 <template>
   <ul class="menu">
     <li v-for="child in children" :key="child.id">
-      <RouterLink
-        :to="{ name: routeDetailCollectionChild, params: { childId: child.id } }"
-        active-class="active"
-        class="flex justify-between"
-      >
+      <MenuLinkChevron :route-name="routeDetailCollectionChild" :params="{ childId: child.id }">
         {{ child.name }}
-        <ChevronRightIcon />
-      </RouterLink>
+      </MenuLinkChevron>
     </li>
   </ul>
 </template>
