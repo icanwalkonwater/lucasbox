@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { routeDetailCollectionItem } from "@/router";
 import { assert } from "@vueuse/shared";
 import { computed, ref } from "vue";
+import MenuLinkChevron from "../MenuLinkChevron.vue";
 
 const props = defineProps<{
   children: { id: number, name: string, items: { id: number, name: string }[] }[],
@@ -12,31 +14,26 @@ const selectedChild = computed(() => props.children[selected.value]);
 </script>
 
 <template>
-  <table class="table table-zebra w-full">
-    <thead>
-      <tr>
-        <th colspan="2">
-          <select v-model="selected" class="select w-full">
-            <option
-              v-for="(child, i) in children"
-              :key="i"
-              :value="i"
-            >
-              {{ child.name }}
-            </option>
-          </select>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="(child, index) in selectedChild.items ?? []"
-        :key="child.id"
-        class="hover"
+  <select v-model="selected" class="select w-full">
+    <option
+      v-for="(child, i) in children"
+      :key="i"
+      :value="i"
+    >
+      {{ child.name }} ({{ child.items.length }} element)
+    </option>
+  </select>
+  <ul class="menu">
+    <li
+      v-for="item in selectedChild.items"
+      :key="item.id"
+    >
+      <MenuLinkChevron 
+        :route-name="routeDetailCollectionItem" 
+        :params="{ itemId: item.id }" 
       >
-        <td>#{{ index }}</td>
-        <td>{{ child.name }}</td>
-      </tr>
-    </tbody>
-  </table>
+        {{ item.name }}
+      </MenuLinkChevron>
+    </li>
+  </ul>
 </template>

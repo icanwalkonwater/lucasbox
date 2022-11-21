@@ -7,6 +7,7 @@ import ListingView from "@/views/ListingView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import { createRouter, createWebHistory } from "vue-router";
+import CollectionBodyNewView from "@/views/CollectionBodyNewView.vue";
 
 const NotFoundView = () => import("@/views/NotFoundView.vue");
 const WipView = () => import("@/views/WipView.vue");
@@ -74,6 +75,10 @@ const router = createRouter({
           component: ToDo,
         },
       ],
+    },
+    {
+      path: "/collection_new",
+      component: CollectionBodyNewView,
     },
     {
       path: "/upload",

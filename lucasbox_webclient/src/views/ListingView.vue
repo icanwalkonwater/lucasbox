@@ -6,7 +6,6 @@ import { useQueryRootCollections } from "@/stores/collections";
 import { logErrorMessages } from "@vue/apollo-util";
 
 const { result: queryRes, loading, onError } = useQueryRootCollections();
-
 onError((err) => logErrorMessages(err));
 </script>
 
@@ -22,7 +21,7 @@ onError((err) => logErrorMessages(err));
       <template v-if="!loading">
         <div v-for="collection in queryRes!.rootCollections" :key="collection.id">
           <RouterLink
-            :to="{ name: routeDetailCollection, params: { collectionId: 0 } }"
+            :to="{ name: routeDetailCollection, params: { collectionId: collection.id } }"
             custom
             v-slot="{ navigate }"
           >

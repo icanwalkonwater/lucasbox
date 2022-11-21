@@ -5,7 +5,11 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      aspectRatio: {
+        "poster": "2 / 3",
+      },
+    },
   },
   plugins: [
     require("daisyui"),
