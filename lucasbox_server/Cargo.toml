@@ -3,14 +3,26 @@ name = "lucasbox_server"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "main"
+path = "src/app/main.rs"
+required-features = ["bin-only"]
+
+[features]
+bin-only = ["color-eyre", "clap"]
 
 [dependencies]
-async-graphql = { version = "5.0.8", features = ["tokio", "tracing", "playground"] }
+async-graphql = { version = "5.0.8", features = ["tokio", "tracing", "playground", "uuid"] }
 async-graphql-axum = "5.0.8"
 axum = { version = "0.6.18", features = ["http2", "tracing", "macros"] }
-color-eyre = "0.6.2"
 sqlx = { version = "0.6.3", features = ["postgres", "runtime-tokio-rustls"] }
 tokio = { version = "1.28.1", features = ["fs", "tracing", "parking_lot", "rt", "rt-multi-thread", "macros"] }
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.17", features = ["parking_lot", "tracing"] }
+uuid = { version = "1.3.3", features = ["v4"] }
+
+color-eyre = { version = "0.6.2", optional = true }
+clap = { version = "4.2.7", optional = true, features = ["derive", "env"] }
+
+[profile.dev.package.sqlx-macros]
+opt-level = 3

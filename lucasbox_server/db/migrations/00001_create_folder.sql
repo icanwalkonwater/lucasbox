@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS folder
+(
+    id         UUID PRIMARY KEY,
+    name       TEXT NOT NULL,
+    edited_at  DATE NOT NULL DEFAULT CURRENT_DATE,
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
+);
